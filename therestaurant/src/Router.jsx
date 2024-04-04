@@ -4,6 +4,8 @@ import { NotFound } from "./pages/NotFound";
 import { Home } from "./pages/Home";
 import { Booking } from "./pages/Booking";
 import { Thankyou } from "./pages/Thankyou";
+import { Contact } from "./pages/Contact";
+import { Admin } from "./pages/Admin";
 
 export const router = createBrowserRouter([
   {
@@ -12,8 +14,10 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { path: "/", index: true, element: <Home /> },
-      { path: "/booking", element: <Booking /> },
-      { path: "/thankyou", element: <Thankyou /> }
+      { path: "/thankyou", element: <Thankyou /> },
+      { path: "booking", element: <Booking /> },
+      { path: "admin", element: <Admin /> },
+      { path: "contact", element: <Contact /> },
     ],
-  }
+  },
 ]);
