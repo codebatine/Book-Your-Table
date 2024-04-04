@@ -9,9 +9,6 @@ export const ShowBooking = ({showBooking, loadingScreen}) => {
     navigate('/thankyou');
   };
 
-  console.log(showBooking);
-
-
   return (
     <>
       {loadingScreen && <><div className="loading-wrapper">Loading...</div></>}
