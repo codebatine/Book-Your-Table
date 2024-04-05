@@ -32,8 +32,6 @@ export const getRestaurants = async (readContract) => {
   }
 };
 
-//Booking
-
 export const requestAccount = async () => {
   try {
     const result = await window.ethereum.request({

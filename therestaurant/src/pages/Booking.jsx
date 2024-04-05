@@ -23,6 +23,7 @@ export const Booking = () => {
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [restaurantInput, setRestaurantInput] = useState(false);
   const { writeContract, readContract } = useContext(ContractContext);
+
   const { isConnected } = useContext(WalletContext);
 
   useEffect(() => {
