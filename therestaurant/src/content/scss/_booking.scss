@@ -1,24 +1,26 @@
-.booking-wrapper{
-  // background-color: rgba(105, 253, 204, 0.521);
+.booking-wrapper {
+  background-color: rgba(105, 253, 204, 0.521);
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
 
-  .connect-wallet-wrapper{
+  .connect-wallet-wrapper {
     margin: 10px;
     display: flex;
     justify-content: end;
     align-items: center;
     // background-color: rgba(105, 253, 204, 0.521);
-    
 
-    button{
+    button {
       margin-left: 10px;
     }
   }
 
-  .choose-button-wrapper{
+  .choose-button-wrapper {
     margin-bottom: 10px;
   }
 
-  .form-wrapper{
+  .form-wrapper {
     display: flex;
     flex-direction: column;
     background-color: rgba(105, 253, 204, 0.521);
@@ -28,40 +30,41 @@
     padding: 20px;
     border-radius: 8px;
 
-
-    form{
+    form {
       display: flex;
       flex-direction: column;
       margin: 10px;
 
-      .form-control{
+      .form-control {
         display: flex;
         border-bottom: 1px solid grey;
 
-        label{
+        label {
           width: 50%;
           align-content: center;
         }
 
-        input, select{
+        input,
+        select {
           width: 50%;
           align-content: center;
           margin-top: 10px;
         }
       }
 
-      button{
+      button {
         margin: 10px 0;
         align-self: flex-end;
       }
     }
   }
 
-  .show-booking-background{
+  .show-booking-background {
     // position: ;
   }
 
-  .show-booking-wrapper, .loading-wrapper{
+  .show-booking-wrapper,
+  .loading-wrapper {
     background-color: rgb(151, 161, 255);
     position: fixed;
     top: 50%;

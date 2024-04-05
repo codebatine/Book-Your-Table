@@ -1,32 +1,7 @@
 import { ethers } from "ethers";
 import { abi, contractAddress } from "./config.js";
 
-export let writeContract;
-let readContract;
-
-export const initializeBlockchain = async () => {
-  if (typeof window.ethereum !== "undefined") {
-    try {
-      await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      window.provider = new ethers.BrowserProvider(window.ethereum);
-
-      readContract = new ethers.Contract(contractAddress, abi, window.provider);
-
-      const signer = await window.provider.getSigner();
-      writeContract = new ethers.Contract(contractAddress, abi, signer);
-    } catch (error) {
-      console.error("Error in initializeBlockchain:", error);
-      return;
-    }
-  } else {
-    return;
-  }
-};
-
-export const createRestaurant = async (restaurantName) => {
+export const createRestaurant = async (restaurantName, writeContract) => {
   if (!writeContract) {
     return;
   }
@@ -39,7 +14,7 @@ export const createRestaurant = async (restaurantName) => {
   }
 };
 
-export const getRestaurants = async () => {
+export const getRestaurants = async (readContract) => {
   if (!readContract) {
     return [];
   }
@@ -57,8 +32,6 @@ export const getRestaurants = async () => {
   }
 };
 
-//Booking
-
 export const requestAccount = async () => {
   try {
     const result = await window.ethereum.request({
@@ -70,7 +43,7 @@ export const requestAccount = async () => {
   }
 };
 
-export const loadReadContract = () => {
+export const loadReadContract = async () => {
   const todoReadContract = new ethers.Contract(
     contractAddress,
     abi,
