@@ -28,7 +28,7 @@ export const ShowBooking = ({showBooking, loadingScreen}) => {
              Time: {showBooking.time}
             </div>
             <div>
-             Resturant: {showBooking.restaurantId}
+             Resturant: {showBooking.resturantId}
             </div>
             <button onClick={handleClick}>OK</button>
           </div>

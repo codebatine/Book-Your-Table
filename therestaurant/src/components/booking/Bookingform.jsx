@@ -61,7 +61,6 @@ export const Bookingform = ({booking, handleBooking, createBooking}) => {
             value={booking.resturantId}
             onChange={handleBooking}
             required
-            
             />
           </div>
           <button>Add Booking</button>
