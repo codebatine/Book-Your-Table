@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "sass": "^1.72.0"
+  },
+  "dependencies": {
+    "hardhat": "^2.22.2"
   }
 }
