@@ -14,6 +14,10 @@
     }
   }
 
+  .choose-button-wrapper{
+    margin-bottom: 10px;
+  }
+
   .form-wrapper{
     display: flex;
     flex-direction: column;
@@ -39,7 +43,7 @@
           align-content: center;
         }
 
-        input{
+        input, select{
           width: 50%;
           align-content: center;
           margin-top: 10px;
@@ -51,6 +55,10 @@
         align-self: flex-end;
       }
     }
+  }
+
+  .show-booking-background{
+    // position: ;
   }
 
   .show-booking-wrapper, .loading-wrapper{

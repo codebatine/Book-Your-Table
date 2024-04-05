@@ -17,19 +17,18 @@ walletChecker(errorMsg);
 export const Booking = () => {
   const [wallet, setWallet] = useState([]);
   const [readContract, setReadContract] = useState();
-  const [resturantList, setResurantList] = useState([]);
+  const [restaurantList, setRestaurantList] = useState([]);
   const [writeContract, setWriteContract] = useState();
   const [booking, setBooking] = useState({
-    id: 0,
     numberOfGuests: 0,
     name: "",
     date: "",
     time: "",
-    resturantId: 0,
+    restaurantId: 0,
   });
   const [showBooking, setShowBooking] = useState("");
   const [loadingScreen, setLoadingScreen] = useState(false);
-  const [resturant, setResturant] = useState({id: 0, name: "", bookingIds: []});
+  const [restaurantInput, setRestaurantInput] = useState(false);
 
   useEffect(() => {
     if (showBooking !== null) {
@@ -57,11 +56,16 @@ export const Booking = () => {
       restaurants.push(resturant)
     }
 
-    setResurantList(restaurants);
+    setRestaurantList(restaurants);
   }, [readContract]);
 
+  const handleEnterBooking = () => {
+    readRestaurant();
+    setRestaurantInput(true);
+  }
+
   const handleBooking = (e) => {
-    setBooking({ ...booking, [e.target.name]: e.target.value });
+    setBooking({ ...booking, [e.target.name]: e.target.value })
   };
 
   const createBooking = async () => {
@@ -71,7 +75,7 @@ export const Booking = () => {
         booking.name,
         booking.date,
         booking.time,
-        booking.resturantId,
+        booking.restaurantId,
       );
       await result.wait();
       returnBooking(booking);
@@ -88,18 +92,20 @@ export const Booking = () => {
     }, 3000);
   };
 
-  console.log(resturantList);
-
   return (
     <div className="booking-wrapper container">
       <ConnectWallet connectWallet={connectWallet} wallet={wallet} />
-      <ChooseRestaurant readRestaurant={readRestaurant} resturantList={resturantList} setResturant={setResturant}/>
+      <ChooseRestaurant showBooking={showBooking} handleEnterBooking={handleEnterBooking}/>
       <Bookingform
+        restaurantInput={restaurantInput}
         booking={booking}
         handleBooking={handleBooking}
         createBooking={createBooking}
+        restaurantList={restaurantList}
+        showBooking={showBooking}
+        loadingScreen={loadingScreen}
       />
-      <ShowBooking showBooking={showBooking} loadingScreen={loadingScreen} />
+      <ShowBooking showBooking={showBooking} loadingScreen={loadingScreen} restaurantList={restaurantList}/>
     </div>
   );
 };
