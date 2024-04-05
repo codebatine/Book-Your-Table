@@ -1,24 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Bookingform } from "../components/booking/Bookingform";
-import { ConnectWallet } from "../components/booking/ConnectWallet";
 import { ShowBooking } from "../components/booking/ShowBooking";
-import {
-  loadReadContract,
-  loadWriteContract,
-  requestAccount,
-  walletChecker,
-} from "../services/blockchainService";
 import { ChooseRestaurant } from "../components/booking/ChooseRestaurant";
+import { walletChecker } from "../services/blockchainService";
+import { ContractContext } from "../context/ContractContext";
+import { WalletContext } from "../context/WalletContext";
 
 let errorMsg = "";
 
 walletChecker(errorMsg);
 
 export const Booking = () => {
-  const [wallet, setWallet] = useState([]);
-  const [readContract, setReadContract] = useState();
   const [restaurantList, setRestaurantList] = useState([]);
-  const [writeContract, setWriteContract] = useState();
   const [booking, setBooking] = useState({
     numberOfGuests: 0,
     name: "",
@@ -29,6 +22,8 @@ export const Booking = () => {
   const [showBooking, setShowBooking] = useState("");
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [restaurantInput, setRestaurantInput] = useState(false);
+  const { writeContract, readContract } = useContext(ContractContext);
+  const { isConnected } = useContext(WalletContext);
 
   useEffect(() => {
     if (showBooking !== null) {
@@ -36,24 +31,13 @@ export const Booking = () => {
     }
   }, [showBooking]);
 
-  const connectWallet = async () => {
-    const account = await requestAccount();
-    setWallet(account);
-
-    const todoReadContract = loadReadContract()
-    setReadContract(todoReadContract);
-
-    const resturantWriteContract = await loadWriteContract();
-    setWriteContract(resturantWriteContract);
-  };
-
   const readRestaurant = useCallback(async () => {
     let count = await readContract.restaurantCount();
-    
+
     const restaurants = [];
-    for (let i = 1; i <= count; i++){
+    for (let i = 1; i <= count; i++) {
       const resturant = await readContract.restaurants(i);
-      restaurants.push(resturant)
+      restaurants.push(resturant);
     }
 
     setRestaurantList(restaurants);
@@ -62,10 +46,10 @@ export const Booking = () => {
   const handleEnterBooking = () => {
     readRestaurant();
     setRestaurantInput(true);
-  }
+  };
 
   const handleBooking = (e) => {
-    setBooking({ ...booking, [e.target.name]: e.target.value })
+    setBooking({ ...booking, [e.target.name]: e.target.value });
   };
 
   const createBooking = async () => {
@@ -93,19 +77,33 @@ export const Booking = () => {
   };
 
   return (
-    <div className="booking-wrapper container">
-      <ConnectWallet connectWallet={connectWallet} wallet={wallet} />
-      <ChooseRestaurant showBooking={showBooking} handleEnterBooking={handleEnterBooking}/>
-      <Bookingform
-        restaurantInput={restaurantInput}
-        booking={booking}
-        handleBooking={handleBooking}
-        createBooking={createBooking}
-        restaurantList={restaurantList}
-        showBooking={showBooking}
-        loadingScreen={loadingScreen}
-      />
-      <ShowBooking showBooking={showBooking} loadingScreen={loadingScreen} restaurantList={restaurantList}/>
-    </div>
+    <>
+      <div className="booking-wrapper container">
+        {isConnected ? (
+          <ChooseRestaurant
+            showBooking={showBooking}
+            handleEnterBooking={handleEnterBooking}
+          />
+        ) : null}
+        {isConnected ? (
+          <Bookingform
+            restaurantInput={restaurantInput}
+            booking={booking}
+            handleBooking={handleBooking}
+            createBooking={createBooking}
+            restaurantList={restaurantList}
+            showBooking={showBooking}
+            loadingScreen={loadingScreen}
+          />
+        ) : (
+          <h2>Please connect the wallet to continue</h2>
+        )}
+        <ShowBooking
+          showBooking={showBooking}
+          loadingScreen={loadingScreen}
+          restaurantList={restaurantList}
+        />
+      </div>
+    </>
   );
 };
