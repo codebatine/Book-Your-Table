@@ -1,18 +1,21 @@
 .booking-wrapper{
-  background-color: rgba(105, 253, 204, 0.521);
-  display: flex;
-  flex-direction: column;
+  // background-color: rgba(105, 253, 204, 0.521);
 
   .connect-wallet-wrapper{
     margin: 10px;
     display: flex;
     justify-content: end;
     align-items: center;
-    background-color: rgba(105, 253, 204, 0.521);
+    // background-color: rgba(105, 253, 204, 0.521);
+    
 
     button{
       margin-left: 10px;
     }
+  }
+
+  .choose-button-wrapper{
+    margin-bottom: 10px;
   }
 
   .form-wrapper{
@@ -20,23 +23,30 @@
     flex-direction: column;
     background-color: rgba(105, 253, 204, 0.521);
     align-items: center;
+    width: 100%;
+    border: 1px solid grey;
+    padding: 20px;
+    border-radius: 8px;
 
 
     form{
       display: flex;
       flex-direction: column;
       margin: 10px;
-      max-width: 800px;
 
       .form-control{
         display: flex;
+        border-bottom: 1px solid grey;
 
         label{
           width: 50%;
+          align-content: center;
         }
 
-        input{
+        input, select{
           width: 50%;
+          align-content: center;
+          margin-top: 10px;
         }
       }
 
@@ -47,8 +57,12 @@
     }
   }
 
+  .show-booking-background{
+    // position: ;
+  }
+
   .show-booking-wrapper, .loading-wrapper{
-    background-color: rgba(105, 253, 204, 0.521);
+    background-color: rgb(151, 161, 255);
     position: fixed;
     top: 50%;
     left: 50%;

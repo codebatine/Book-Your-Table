@@ -8,6 +8,7 @@ import {
   requestAccount,
   walletChecker,
 } from "../services/blockchainService";
+import { ChooseRestaurant } from "../components/booking/ChooseRestaurant";
 
 let errorMsg = "";
 
@@ -16,17 +17,18 @@ walletChecker(errorMsg);
 export const Booking = () => {
   const [wallet, setWallet] = useState([]);
   const [readContract, setReadContract] = useState();
+  const [restaurantList, setRestaurantList] = useState([]);
   const [writeContract, setWriteContract] = useState();
   const [booking, setBooking] = useState({
-    id: 0,
     numberOfGuests: 0,
     name: "",
     date: "",
     time: "",
-    resturantId: 0,
+    restaurantId: 0,
   });
   const [showBooking, setShowBooking] = useState("");
   const [loadingScreen, setLoadingScreen] = useState(false);
+  const [restaurantInput, setRestaurantInput] = useState(false);
 
   useEffect(() => {
     if (showBooking !== null) {
@@ -38,12 +40,32 @@ export const Booking = () => {
     const account = await requestAccount();
     setWallet(account);
 
+    const todoReadContract = loadReadContract()
+    setReadContract(todoReadContract);
+
     const resturantWriteContract = await loadWriteContract();
     setWriteContract(resturantWriteContract);
   };
 
+  const readRestaurant = useCallback(async () => {
+    let count = await readContract.restaurantCount();
+    
+    const restaurants = [];
+    for (let i = 1; i <= count; i++){
+      const resturant = await readContract.restaurants(i);
+      restaurants.push(resturant)
+    }
+
+    setRestaurantList(restaurants);
+  }, [readContract]);
+
+  const handleEnterBooking = () => {
+    readRestaurant();
+    setRestaurantInput(true);
+  }
+
   const handleBooking = (e) => {
-    setBooking({ ...booking, [e.target.name]: e.target.value });
+    setBooking({ ...booking, [e.target.name]: e.target.value })
   };
 
   const createBooking = async () => {
@@ -53,7 +75,7 @@ export const Booking = () => {
         booking.name,
         booking.date,
         booking.time,
-        booking.resturantId,
+        booking.restaurantId,
       );
       await result.wait();
       returnBooking(booking);
@@ -63,6 +85,7 @@ export const Booking = () => {
   };
 
   const returnBooking = (booking) => {
+    console.log(booking);
     setLoadingScreen("true");
     setTimeout(() => {
       setShowBooking(booking);
@@ -70,14 +93,19 @@ export const Booking = () => {
   };
 
   return (
-    <div className="booking-wrapper">
+    <div className="booking-wrapper container">
       <ConnectWallet connectWallet={connectWallet} wallet={wallet} />
+      <ChooseRestaurant showBooking={showBooking} handleEnterBooking={handleEnterBooking}/>
       <Bookingform
+        restaurantInput={restaurantInput}
         booking={booking}
         handleBooking={handleBooking}
         createBooking={createBooking}
+        restaurantList={restaurantList}
+        showBooking={showBooking}
+        loadingScreen={loadingScreen}
       />
-      <ShowBooking showBooking={showBooking} loadingScreen={loadingScreen} />
+      <ShowBooking showBooking={showBooking} loadingScreen={loadingScreen} restaurantList={restaurantList}/>
     </div>
   );
 };

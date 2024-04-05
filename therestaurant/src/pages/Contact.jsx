@@ -8,7 +8,7 @@ export const Contact = () => {
 
   return (
     <div className="contact-page">
-      <div className="contact-contianer">
+      <div className="contact-container">
         <h1>Contact</h1>
         <p>Address: {contactData.address}</p>
         <p>Stad: {contactData.city}</p>
