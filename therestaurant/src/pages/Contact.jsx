@@ -26,16 +26,16 @@ export const Contact = () => {
       <div className="about-container">
         <h1>About us</h1>
         <ul>
-          {aboutUs.names.map((worker) => {
-            return <li>{worker}</li>;
+          {aboutUs.names.map((worker, i) => {
+            return <li key={i}>{worker}</li>;
           })}
         </ul>
         <p>{aboutUs.description}</p>
         <p>Opening hours: {aboutUs.hours}</p>
         <p>
           Here you can pay with{" "}
-          {aboutUs.Currency.map((crypto) => (
-            <span>{crypto}</span>
+          {aboutUs.Currency.map((crypto, i) => (
+            <span key={i}>{crypto}</span>
           ))}
           <br />
           We do not accept filty fiat money
