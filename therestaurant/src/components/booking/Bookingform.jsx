@@ -38,27 +38,32 @@ export const Bookingform = ({showBooking, loadingScreen, booking, handleBooking,
           />
         </div>
         <div className="form-control">
-          <label htmlFor="booking-form-date">Date</label>
-          <input 
-          type="text"
-          name="date"
-          id="booking-form-date"
-          value={booking.date}
-          onChange={handleBooking}
-          required
-          />
-        </div>
+            <label htmlFor="booking-form-date">Date</label>
+            <input 
+            type="date"
+            name="date"
+            id="booking-form-date"
+            value={booking.date}
+            onChange={handleBooking}
+            required
+            />
+          </div>
         <div className="form-control">
-          <label htmlFor="booking-form-time">Time</label>
-          <input 
-          type="text"
+       <label htmlFor="booking-form-time">Time</label>
+        <select
           name="time"
           id="booking-form-time"
           value={booking.time}
           onChange={handleBooking}
           required
-          />
-        </div>
+        >
+          <option value="">Select time</option>
+          <option value="1800">18:00</option>
+          <option value="1900">19:00</option>
+          <option value="2000">20:00</option>
+          <option value="2100">21:00</option>
+        </select>
+      </div>
         <button>Add Booking</button>
       </form>
     </div>}
