@@ -8,7 +8,8 @@ export const ShowRestaurants = () => {
 
   const { readContract } = useContext(ContractContext);
 
-  const handleToggleRestaurants = async () => {
+  const handleToggleRestaurants = async (event) => {
+    event.preventDefault();
     try {
       const restaurants = await getRestaurants(readContract);
       setRestaurants(restaurants);
