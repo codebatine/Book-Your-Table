@@ -68,11 +68,11 @@ function App() {
     <>
       <WalletContext.Provider
         value={{
-          walletAddress,
-          isConnected,
-          connectWallet,
-          disconnectWallet,
-          walletProvider,
+          walletAddress, // string
+          isConnected, // boolean
+          connectWallet, // function
+          disconnectWallet, // function
+          walletProvider, // object
         }}
       >
         <ContractContext.Provider value={{ readContract, writeContract }}>

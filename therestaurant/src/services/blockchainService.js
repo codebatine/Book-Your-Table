@@ -1,103 +1,7 @@
-// import { ethers } from 'ethers';
-// import { abi, contractAddress } from './config.js';
+import { ethers } from "ethers";
+import { abi, contractAddress } from "./config.js";
 
-// export const createRestaurant = async (restaurantName, writeContract) => {
-//   if (!writeContract) {
-//     return;
-//   }
-
-//   try {
-//     await writeContract.createRestaurant(restaurantName);
-//   } catch (error) {
-//     console.error('Error in createRestaurant:', error);
-//     throw error;
-//   }
-// };
-
-// export const getRestaurants = async (readContract) => {
-//   if (!readContract) {
-//     return [];
-//   }
-
-//   try {
-//     const restaurantCount = await readContract.restaurantCount();
-//     const restaurants = [];
-//     for (let i = 1; i <= restaurantCount; i++) {
-//       const restaurant = await readContract.restaurants(i);
-//       restaurants.push(restaurant);
-//     }
-//     return restaurants;
-//   } catch (error) {
-//     console.error(`Failed to fetch restaurants: ${error}`);
-//   }
-// };
-
-// export const requestAccount = async () => {
-//   try {
-//     const result = await window.ethereum.request({
-//       method: 'eth_requestAccounts',
-//     });
-//     return result;
-//   } catch (error) {
-//     console.error('Error requesting account:', error);
-//   }
-// };
-
-// export const loadReadContract = async () => {
-//   const todoReadContract = new ethers.Contract(
-//     contractAddress,
-//     abi,
-//     window.provider,
-//   );
-
-//   return todoReadContract;
-// };
-
-// export const loadWriteContract = async () => {
-//   const signer = await provider.getSigner();
-
-//   const resturantWriteContract = new ethers.Contract(
-//     contractAddress,
-//     abi,
-//     signer,
-//   );
-
-//   return resturantWriteContract;
-// };
-
-// export const walletChecker = (errorMsg) => {
-//   if (!window.ethereum) {
-//     errorMsg =
-//       'Ethers.js: Web3 provider not found. Please install a wallet with Web3 support.';
-//     console.error(errorMsg);
-//   } else {
-//     window.provider = new ethers.BrowserProvider(window.ethereum);
-//   }
-// };
-
-import { ethers } from 'ethers';
-import { abi, contractAddress } from './config.js';
-
-let writeContract;
-let readContract;
-
-export const initializeBlockchain = async () => {
-  if (typeof window.ethereum !== 'undefined') {
-    try {
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      window.provider = new ethers.BrowserProvider(window.ethereum);
-      if (!readContract) {
-        readContract = await loadReadContract();
-      }
-      const signer = await window.provider.getSigner();
-      writeContract = new ethers.Contract(contractAddress, abi, signer);
-    } catch (error) {
-      console.error('Error in initializeBlockchain:', error);
-    }
-  }
-};
-
-export const createRestaurant = async (restaurantName) => {
+export const createRestaurant = async (restaurantName, writeContract) => {
   if (!writeContract) {
     return;
   }
@@ -105,12 +9,12 @@ export const createRestaurant = async (restaurantName) => {
   try {
     await writeContract.createRestaurant(restaurantName);
   } catch (error) {
-    console.error('Error in createRestaurant:', error);
+    console.error("Error in createRestaurant:", error);
     throw error;
   }
 };
 
-export const getRestaurants = async () => {
+export const getRestaurants = async (readContract) => {
   if (!readContract) {
     return [];
   }
@@ -128,6 +32,49 @@ export const getRestaurants = async () => {
   }
 };
 
+export const requestAccount = async () => {
+  try {
+    const result = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    return result;
+  } catch (error) {
+    console.error("Error requesting account:", error);
+  }
+};
+
+export const loadReadContract = async () => {
+  const todoReadContract = new ethers.Contract(
+    contractAddress,
+    abi,
+    window.provider,
+  );
+
+  return todoReadContract;
+};
+
+export const loadWriteContract = async () => {
+  const signer = await provider.getSigner();
+
+  const resturantWriteContract = new ethers.Contract(
+    contractAddress,
+    abi,
+    signer,
+  );
+
+  return resturantWriteContract;
+};
+
+export const walletChecker = (errorMsg) => {
+  if (!window.ethereum) {
+    errorMsg =
+      "Ethers.js: Web3 provider not found. Please install a wallet with Web3 support.";
+    console.error(errorMsg);
+  } else {
+    window.provider = new ethers.BrowserProvider(window.ethereum);
+  }
+};
+
 // Booking
 
 export const editBooking = async (
@@ -136,6 +83,7 @@ export const editBooking = async (
   name,
   date,
   time,
+  writeContract,
 ) => {
   try {
     const result = await writeContract.editBooking(
@@ -147,12 +95,12 @@ export const editBooking = async (
     );
     await result.wait();
   } catch (error) {
-    console.error('Error editing booking:', error);
+    console.error("Error editing booking:", error);
     throw error;
   }
 };
 
-export const getBookings = async (restaurantId) => {
+export const getBookings = async (restaurantId, readContract) => {
   if (!readContract) {
     return [];
   }
@@ -172,61 +120,15 @@ export const getBookings = async (restaurantId) => {
   }
 };
 
-export const removeBooking = async (bookingId) => {
+export const removeBooking = async (bookingId, writeContract) => {
   try {
     if (!writeContract) {
-      throw new Error('Write contract not initialized');
+      throw new Error("Write contract not initialized");
     }
     const result = await writeContract.removeBooking(bookingId);
     await result.wait();
   } catch (error) {
-    console.error('Error removing booking:', error);
+    console.error("Error removing booking:", error);
     throw error;
-  }
-};
-
-//Booking
-
-export const requestAccount = async () => {
-  try {
-    const result = await window.ethereum.request({
-      method: 'eth_requestAccounts',
-    });
-    return result;
-  } catch (error) {
-    console.error('Error requesting account:', error);
-  }
-};
-
-export const loadReadContract = async () => {
-  console.log('Loading read contract...');
-  const todoReadContract = new ethers.Contract(
-    contractAddress,
-    abi,
-    window.provider,
-  );
-  console.log('Read contract loaded:', todoReadContract);
-  return todoReadContract;
-};
-
-export const loadWriteContract = async () => {
-  const signer = await window.provider.getSigner();
-
-  const resturantWriteContract = new ethers.Contract(
-    contractAddress,
-    abi,
-    signer,
-  );
-
-  return resturantWriteContract;
-};
-
-export const walletChecker = (errorMsg) => {
-  if (!window.ethereum) {
-    errorMsg =
-      'Ethers.js: Web3 provider not found. Please install a wallet with Web3 support.';
-    console.error(errorMsg);
-  } else {
-    window.provider = new ethers.BrowserProvider(window.ethereum);
   }
 };
