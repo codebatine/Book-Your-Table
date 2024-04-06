@@ -93,6 +93,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
       <ul>
         {bookings
           .filter((booking) => booking[1] != 0)
+          .sort((a, b) => Number(a[1]) - Number(b[1]))
           .map((booking) => {
             console.log("Booking:", booking);
             console.log("Booking ID:", booking[0]);
