@@ -23,20 +23,24 @@ export const ShowRestaurants = () => {
   console.log(showRestaurants);
 
   return (
-<div className="container-contact">
-  <form>
-    <button onClick={handleToggleRestaurants}>
-      {showRestaurants ? "Hide Restaurants" : "Show Restaurants"}
-    </button>
-  </form>
-  {showRestaurants &&
-    restaurants.map((restaurant, index) => (
-      <div key={index}>
-        <p>
-          ID: {restaurant.id.toString()}, Name: {restaurant.name}
-        </p>
+    <div className="container-contact">
+      <div className="booking-detail" style={{ alignItems: 'center'}}>
+        <h2 style={{ textAlign: 'center'}}>Restaurants</h2>
+        <button onClick={handleToggleRestaurants}>
+          {showRestaurants ? "Hide Restaurants" : "Show Restaurants"}
+        </button>
+        {showRestaurants && (
+          <ul>
+            {restaurants.map((restaurant, index) => (
+              <li key={index}>
+                <div className="booking-detail" style={{ textAlign: 'center'}} >
+                  <p>ID: {restaurant.id.toString()}, Name: {restaurant.name}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-    ))}
-</div>
+    </div>
   );
 };
