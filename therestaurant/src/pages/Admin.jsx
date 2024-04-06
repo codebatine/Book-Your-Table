@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { createRestaurant } from "../services/blockchainService.js";
-import { ShowRestaurants } from "../components/ShowRestaurants.jsx";
+import { ShowRestaurants } from "../components/admin/ShowRestaurants.jsx";
 import { ContractContext } from "../context/ContractContext.js";
 import { WalletContext } from "../context/WalletContext.js";
 import { ShowBookings } from "../components/admin/ShowBookings.jsx";
 
 export const Admin = () => {
   const [newRestaurant, setNewRestaurant] = useState({ name: "" });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const { writeContract } = useContext(ContractContext);
   const { isConnected } = useContext(WalletContext);
 

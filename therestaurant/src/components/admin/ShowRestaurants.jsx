@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { getRestaurants } from "../services/blockchainService.js";
-import { ContractContext } from "../context/ContractContext.js";
+import { getRestaurants } from "../../services/blockchainService.js";
+import { ContractContext } from "../../context/ContractContext.js";
 
 export const ShowRestaurants = () => {
   const [restaurants, setRestaurants] = useState([]);

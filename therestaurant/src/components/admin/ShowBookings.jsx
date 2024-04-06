@@ -9,29 +9,20 @@ import { ContractContext } from "../../context/ContractContext.js";
 
 export const ShowBookings = ({ restaurantId, all }) => {
   const [bookings, setBookings] = useState([]);
-
   const { readContract, writeContract } = useContext(ContractContext);
 
   useEffect(() => {
     const fetchBookings = async () => {
-      console.log("Current bookings:", bookings);
-
       try {
         if (readContract) {
-          console.log("Fetching bookings...");
           const bookingCount = await readContract.bookingCount();
           const fetchedBookings = [];
           for (let i = 1; i <= bookingCount; i++) {
             const booking = await readContract.bookings(i);
             fetchedBookings.push(booking);
           }
-          console.log("Fetched bookings:", fetchedBookings);
           fetchedBookings.sort((a, b) => a - b);
           setBookings(fetchedBookings);
-
-          console.log("Bookings array:", fetchedBookings);
-        } else {
-          console.error("Read contract is null");
         }
       } catch (error) {
         console.error("Failed to fetch bookings:", error);
@@ -47,7 +38,6 @@ export const ShowBookings = ({ restaurantId, all }) => {
     const date = prompt("Enter the updated date");
     const time = prompt("Enter the updated time");
     try {
-      console.log("Editing booking...");
       await editBooking(
         bookingId,
         numberOfGuests,
@@ -56,12 +46,10 @@ export const ShowBookings = ({ restaurantId, all }) => {
         time,
         writeContract,
       );
-      console.log("Waiting for changes to propagate...");
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      console.log("Fetching updated bookings...");
       const fetchedBookings = await getBookings(readContract, restaurantId);
-      console.log("Fetched updated bookings:", fetchedBookings);
-      setBookings(fetchedBookings);
+      setBookings(fetchedBookings.filter(booking => booking[0] !== bookingId));
+      window.alert("The booking has been edited.");
     } catch (error) {
       console.error("Failed to edit booking:", error);
     }
@@ -73,14 +61,11 @@ export const ShowBookings = ({ restaurantId, all }) => {
     );
     if (confirmRemove) {
       try {
-        console.log("Removing booking...");
         await removeBooking(bookingId, writeContract);
-        console.log("Waiting for changes to propagate...");
         await new Promise((resolve) => setTimeout(resolve, 5000));
-        console.log("Fetching updated bookings...");
         const fetchedBookings = await getBookings(readContract, restaurantId);
-        console.log("Fetched updated bookings:", fetchedBookings);
         setBookings(fetchedBookings);
+        window.alert("The booking has been removed.");
       } catch (error) {
         console.error("Failed to remove booking:", error);
       }
@@ -95,8 +80,6 @@ export const ShowBookings = ({ restaurantId, all }) => {
           .filter((booking) => booking[1] != 0)
           .sort((a, b) => Number(a[5]) - Number(b[5]))
           .map((booking) => {
-            console.log("Booking:", booking);
-            console.log("Booking ID:", booking[0]);
             return (
               <li key={booking[0]}>
                 <div className="booking-detail">
