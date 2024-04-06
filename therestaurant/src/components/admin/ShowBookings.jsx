@@ -88,7 +88,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
   };
 
   return (
-    <div>
+    <div className="container-contact">
       <h2>Bookings</h2>
       <ul>
         {bookings
@@ -99,13 +99,17 @@ export const ShowBookings = ({ restaurantId, all }) => {
             console.log("Booking ID:", booking[0]);
             return (
               <li key={booking[0]}>
-                <p>Restaurant ID: {booking[1].toString()}</p>
-                <p>Name: {booking[2]}</p>
-                <p>Date: {booking[3]}</p>
-                <p>Time: {booking[4].toString()}</p>
-                <p>Number of Guests: {booking[1].toString()}</p>
-                <button onClick={() => handleEdit(booking[0])}>Edit</button>
-                <button onClick={() => handleRemove(booking[0])}>Remove</button>
+                <div className="booking-detail">
+                  <p>Restaurant ID: {booking[5].toString()}</p>
+                  <p>Name: {booking[2]}</p>
+                  <p>Date: {booking[3]}</p>
+                  <p>Time: {booking[4].toString()}</p>
+                  <p>Number of Guests: {booking[1].toString()}</p>
+                </div>
+                <div className="booking-actions">
+                  <button onClick={() => handleEdit(booking[0])}>Edit</button>
+                  <button onClick={() => handleRemove(booking[0])}>Remove</button>
+                </div>
               </li>
             );
           })}

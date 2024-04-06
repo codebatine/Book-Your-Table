@@ -48,27 +48,124 @@ h6 {
   isolation: isolate;
 }
 
+.booking-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 200px auto 0 auto;
+  padding: 20px;
+  background-color: rgba(105, 253, 204, 0.521);
+  border-radius: 0.25em;
+  box-shadow: 0 0 0.25em rgba(93, 170, 104, 0.25);
+  box-sizing: border-box;
+}
+.booking-wrapper .connect-wallet-wrapper,
+.booking-wrapper .choose-button-wrapper {
+  width: 100%;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.booking-wrapper .connect-wallet-wrapper button,
+.booking-wrapper .choose-button-wrapper button {
+  margin-left: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #242424;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+}
+.booking-wrapper .connect-wallet-wrapper button:hover,
+.booking-wrapper .choose-button-wrapper button:hover {
+  background-color: #3f6844;
+}
+.booking-wrapper .form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+}
+.booking-wrapper .form-wrapper form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 3rem 0 3rem 0;
+}
+.booking-wrapper .form-wrapper form .form-control {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid grey;
+  width: 100%;
+}
+.booking-wrapper .form-wrapper form .form-control label {
+  align-self: center;
+}
+.booking-wrapper .form-wrapper form .form-control input,
+.booking-wrapper .form-wrapper form .form-control select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  align-self: center;
+  margin-top: 10px;
+}
+.booking-wrapper .form-wrapper form button {
+  margin: 10px 0;
+  align-self: center;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #242424;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+}
+.booking-wrapper .form-wrapper form button:hover {
+  background-color: #3f6844;
+}
+.booking-wrapper .show-booking-wrapper,
+.booking-wrapper .loading-wrapper {
+  background-color: rgba(93, 170, 104, 0.25);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid black;
+}
+
 body {
-  background-color: #ffffff;
   color: #242424;
   font-family: "Montserrat", sans-serif;
-}
-
-.rubik-doodle shadow-regular {
-  font-family: "Rubik Doodle Shadow", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.rubik-doodle shadow-regular {
-  font-family: "Rubik Doodle Shadow", system-ui;
-  font-weight: 400;
-  font-style: normal;
 }
 
 h1 {
   font: 4rem "Rubik Doodle Shadow", sans-serif;
   color: #fdfcfa;
+}
+
+h2 {
+  font: 3rem "Montserrat", sans-serif;
+  color: #242424;
+}
+
+.rubik-doodleshadow-regular {
+  font-family: "Rubik Doodle Shadow", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background-color: #ffffff;
 }
 
 header {
@@ -83,20 +180,6 @@ header {
 nav {
   padding: 15px 20px;
 }
-
-nav ul li a {
-  color: #242424;
-  text-decoration: none;
-}
-
-nav ul li a:hover {
-  color: #5daa68;
-}
-
-.current {
-  color: #3f6844;
-}
-
 nav ul {
   list-style: none;
   padding: 0;
@@ -104,26 +187,21 @@ nav ul {
   display: flex;
   gap: 20px;
 }
-
 nav ul li {
   font-size: 150%;
   display: inline-block;
   padding: 10px;
 }
-
 nav ul li a {
   color: #242424;
   text-decoration: none;
 }
-
 nav ul li a:hover {
-  color: #c3d7df;
+  color: #fdfcfa;
 }
-
-.current {
-  color: #c3d7df;
+nav ul .current {
+  color: #3f6844;
 }
-
 @media (max-width: 800px) {
   nav {
     padding: 0;
@@ -143,77 +221,44 @@ nav ul li a:hover {
     z-index: 99;
   }
 }
-#menu-icon {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 2rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-  margin: 25px;
-}
-#menu-icon:focus {
-  outline: none;
-}
-#menu-icon span {
-  width: 2rem;
-  height: 0.25rem;
-  background: #333;
-  border-radius: 10px;
-  transition: all 0.5s ease-in-out;
-  position: relative;
-  transform-origin: 1px;
-  transition: all 0.1s ease-in-out;
-}
-#menu-icon.open span:first-child {
-  transform: rotate(45deg);
-}
-#menu-icon.open span:nth-child(2) {
-  opacity: 0;
-  transform: translateX(20px);
-}
-#menu-icon.open span:nth-child(3) {
-  transform: rotate(-45deg);
-}
 
-@media (max-width: 800px) {
-  #menu-icon {
-    display: flex;
-  }
-}
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
-  margin: 100px auto 0 auto;
-  padding: 20px;
+  max-width: 1000px;
+  margin: 150px auto 0 auto;
+  padding: 3rem;
+  background-color: rgba(93, 170, 104, 0.5);
+  border-radius: 0.25em;
+  box-shadow: 0 0 0.25em rgba(93, 170, 104, 0.25);
+  box-sizing: border-box;
 }
-
 .container h1 {
   margin-bottom: 20px;
 }
-
 .container form {
   display: flex;
   flex-direction: column;
   width: 100%;
+  align-items: center;
+  margin: 3rem 0 3rem 0;
 }
-
+.container form label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+}
 .container form input,
 .container form select {
-  margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%;
 }
-
 .container form button {
   padding: 10px;
   border: none;
@@ -221,9 +266,107 @@ nav ul li a:hover {
   background-color: #242424;
   color: white;
   cursor: pointer;
+  width: 100%;
+}
+.container form button:hover {
+  background-color: #3f6844;
 }
 
-.container form button:hover {
+.container-contact {
+  margin: 50px auto 0 auto;
+  width: 100%;
+}
+.container-contact form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+.container-contact div,
+.container-contact ul li {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.container-contact div .booking-detail,
+.container-contact ul li .booking-detail {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+.container-contact div .booking-actions,
+.container-contact ul li .booking-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: #000 1px solid;
+}
+.container-contact div label,
+.container-contact ul li label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.container-contact div input,
+.container-contact ul li input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.container-contact div button,
+.container-contact ul li button {
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  background-color: #242424;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+}
+.container-contact div button:hover,
+.container-contact ul li button:hover {
+  background-color: #3f6844;
+}
+
+.about-us-section {
+  margin: 100px 50px 0 100px;
+}
+
+.container-contact .crypto-logos {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+.container-contact .crypto-logos img {
+  width: 60px;
+  height: auto;
+}
+
+.connect-wallet-button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #242424;
+  color: white;
+  cursor: pointer;
+  width: 200px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.connect-wallet-button:hover {
   background-color: #3f6844;
 }
 
@@ -268,5 +411,46 @@ nav ul li a:hover {
   }
   100% {
     transform: translateX(25%);
+  }
+}
+#menu-icon {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  margin: 25px;
+}
+#menu-icon:focus {
+  outline: none;
+}
+#menu-icon span {
+  width: 2rem;
+  height: 0.25rem;
+  background: #333;
+  border-radius: 10px;
+  transition: all 0.5s ease-in-out;
+  position: relative;
+  transform-origin: 1px;
+  transition: all 0.1s ease-in-out;
+}
+#menu-icon.open span:first-child {
+  transform: rotate(45deg);
+}
+#menu-icon.open span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(20px);
+}
+#menu-icon.open span:nth-child(3) {
+  transform: rotate(-45deg);
+}
+@media (max-width: 800px) {
+  #menu-icon {
+    display: flex;
   }
 }
