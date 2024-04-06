@@ -57,6 +57,8 @@ export const Booking = () => {
     }, 3000);
   };
 
+  
+
   return (
     <>
       <div className="booking-wrapper container">

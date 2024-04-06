@@ -26,7 +26,7 @@ export const ShowBooking = ({ displayBookingConfirmation, loadingScreen, restaur
           <div>Guests: {displayBookingConfirmation.numberOfGuests}</div>
           <div>Your name: {displayBookingConfirmation.name}</div>
           <div>Date: {displayBookingConfirmation.date}</div>
-          <div>Time: {displayBookingConfirmation.time}</div>
+          <div>Time: {displayBookingConfirmation.time.replace(/(\d{2})(\d{2})/, "$1:$2")}</div>
           <button onClick={handleClick}>OK</button>
         </div>
       )}

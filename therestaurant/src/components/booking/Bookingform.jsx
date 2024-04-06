@@ -1,10 +1,40 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ContractContext } from '../../context/ContractContext';
 import { createBooking } from "../../services/blockchainService";
 
 export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking, handleSetBooking, restaurantList, displayBookingForm, returnBooking}) => {
 
-  const { writeContract } = useContext(ContractContext)
+  const [bookings, setBookings] = useState([]);
+  const { readContract, writeContract } = useContext(ContractContext)
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      console.log("Current bookings:", bookings);
+
+      try {
+        if (readContract) {
+          console.log("Fetching bookings...");
+          const bookingCount = await readContract.bookingCount();
+          const fetchedBookings = [];
+          for (let i = 1; i <= bookingCount; i++) {
+            const booking = await readContract.bookings(i);
+            fetchedBookings.push(booking);
+          }
+          console.log("Fetched bookings:", fetchedBookings);
+          fetchedBookings.sort((a, b) => a - b);
+          setBookings(fetchedBookings);
+
+          console.log("Bookings array:", fetchedBookings);
+        } else {
+          console.error("Read contract is null");
+        }
+      } catch (error) {
+        console.error("Failed to fetch bookings:", error);
+      }
+    };
+
+    fetchBookings();
+  }, []);
 
   const handleCreateBooking = async () => {
     try {
@@ -14,6 +44,9 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
       console.error("Failed to create booking:", error);
     }
   }
+
+  console.log("resturantList", restaurantList);
+  console.log("bookings", bookings);
 
   return (
     <>{(!displayBookingConfirmation && !loadingScreen && displayBookingForm) &&     
@@ -65,17 +98,20 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
           </div>
         <div className="form-control">
        <label htmlFor="booking-form-time">Time</label>
-        <select
-          name="time"
-          id="booking-form-time"
-          value={booking.time}
-          onChange={handleSetBooking}
-          required
-        >
-          <option value="">Select time</option>
-          <option value="1800">18:00</option>
-          <option value="2100">21:00</option>
-        </select>
+        <div>
+          <button
+            onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "1800" } })}}
+            className={booking.time === "1800" ? "bookingTime selected" : "bookingTime"}
+          >
+            18:00
+          </button>
+          <button
+            onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "2100" } })}}
+            className={booking.time === "2100" ? "bookingTime selected" : "bookingTime"}
+          >
+            21:00
+          </button>
+        </div>
       </div>
         <button>Add Booking</button>
       </form>

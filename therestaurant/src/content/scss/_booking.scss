@@ -73,7 +73,7 @@
         }
       }
 
-      button {
+      .bookingTime {
         margin: 10px 0;
         align-self: center; // Center the button
         padding: 10px;
@@ -86,6 +86,10 @@
 
         &:hover {
           background-color: $color-dark-green;
+        }
+
+        &.selected{
+          box-shadow: inset 0px 0px 0px 3px red;
         }
       }
     }
