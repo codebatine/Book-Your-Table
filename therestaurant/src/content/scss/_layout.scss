@@ -1,36 +1,7 @@
-// COLORS
-$color-white: #ffffff;
-$color-cream-white: #fdfcfa;
-$color-green: #5daa68;
-$color-dark-green: #3f6844;
-$color-light-yellow: #faf1cf;
-$color-dark: #242424;
-
-// BODY
 body {
   background-color: $color-white;
-  color: $color-dark;
-  font-family: "Montserrat", sans-serif;
 }
 
-.rubik-doodle shadow-regular {
-  font-family: "Rubik Doodle Shadow", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.rubik-doodle shadow-regular {
-  font-family: "Rubik Doodle Shadow", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
-h1 {
-  font: 4rem 'Rubik Doodle Shadow', sans-serif;
-  color: $color-cream-white;
-}
-
-// NAV
 header {
   position: fixed;
   top: 0;
@@ -42,202 +13,166 @@ header {
 
 nav {
   padding: 15px 20px;
-}
 
-nav ul li a {
-  color: $color-dark;
-  text-decoration: none;
-}
-
-nav ul li a:hover {
-  color: $color-green;
-}
-
-.current {
-  color: $color-dark-green;
-}
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 20px;
-}
-
-nav ul li {
-  font-size: 150%;
-  display: inline-block;
-  padding: 10px;
-}
-
-nav ul li a {
-  color: #242424;
-  text-decoration: none;
-}
-
-nav ul li a:hover {
-  color: #c3d7df;
-}
-
-.current {
-  color: #c3d7df;
-}
-
-@media (max-width: 800px) {
-  nav {
+  ul {
+    list-style: none;
     padding: 0;
-  }
-
-  nav ul {
-    display: none;
-  }
-
-  nav ul.open {
+    margin: 0;
     display: flex;
-    flex-direction: column;
-    background-color: $color-green;
-    width: 100vw;
-    height: 100vh;
-    justify-content: flex-start;
-    align-items: center;
-    padding-top: 20%;
-    z-index: 99;
+    gap: 20px;
+
+    li {
+      font-size: 150%;
+      display: inline-block;
+      padding: 10px;
+
+      a {
+        color: $color-dark;
+        text-decoration: none;
+
+        &:hover {
+          color: $color-cream-white;
+        }
+      }
+    }
+
+    .current {
+      color: $color-dark-green;
+    }
+  }
+
+  @media (max-width: 800px) {
+    padding: 0;
+
+    ul {
+      display: none;
+
+      &.open {
+        display: flex;
+        flex-direction: column;
+        background-color: $color-green;
+        width: 100vw;
+        height: 100vh;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 20%;
+        z-index: 99;
+      }
+    }
   }
 }
 
-// HAMBURGER
-#menu-icon {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 2rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-  margin: 25px;
-
-  &:focus {
-    outline: none;
-  }
-
-  span {
-    width: 2rem;
-    height: 0.25rem;
-    background: #333;
-    border-radius: 10px;
-    transition: all 0.5s ease-in-out;
-    position: relative;
-    transform-origin: 1px;
-    transition: all 0.1s ease-in-out;
-  }
-
-  &.open span:first-child {
-    transform: rotate(45deg);
-  }
-
-  &.open span:nth-child(2) {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-
-  &.open span:nth-child(3) {
-    transform: rotate(-45deg);
-  }
-}
-
-@media (max-width: 800px) {
-  #menu-icon {
-    display: flex;
-  }
-}
-
-// CONTAINER
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
-  margin: 100px auto 0 auto;
-  padding: 20px;
+  max-width: 1000px;
+  margin: 150px auto 0 auto;
+  padding: 3rem;
+  background-color:rgba($color-green, .5);
+  border-radius:.25em;
+  box-shadow:0 0 .25em rgba($color-green, .25);
+  box-sizing:border-box;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin: 3rem 0 3rem 0;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    input,
+    select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: $color-dark;
+      color: white;
+      cursor: pointer;
+      width: 100%;
+
+      &:hover {
+        background-color: $color-dark-green;
+      }
+    }
+  }
 }
 
-.container h1 {
-  margin-bottom: 20px;
-}
-
-.container form {
-  display: flex;
-  flex-direction: column;
+.container-contact {
+  margin: 50px auto 0 auto;
   width: 100%;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
 }
 
-.container form input,
-.container form select {
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.crypto-logos {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  img {
+    width: 80px;
+    height: auto;
+  }
 }
 
-.container form button {
+.connect-wallet-button {
   padding: 10px;
   border: none;
   border-radius: 4px;
   background-color: $color-dark;
   color: white;
   cursor: pointer;
-}
+  width: 200px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
-.container form button:hover {
-  background-color: $color-dark-green;
-}
-
-//HOME BG EFFECT
-.bg {
-  animation:slide 3s ease-in-out infinite alternate;
-  background-image: linear-gradient(-60deg, $color-green 50%, $color-dark-green 50%);
-  bottom:0;
-  left:-50%;
-  opacity:.5;
-  position:fixed;
-  right:-50%;
-  top:0;
-  z-index:-1;
-}
-
-.bg2 {
-  animation-direction:alternate-reverse;
-  animation-duration:7s;
-}
-
-.bg3 {
-  animation-duration:10s;
-}
-
-.content {
-  background-color:rgba($color-dark, .3);
-  border-radius:.25em;
-  box-shadow:0 0 .25em rgba($color-dark, .25);
-  box-sizing:border-box;
-  left:50%;
-  padding:10vmin;
-  position:fixed;
-  text-align:center;
-  top:50%;
-  transform:translate(-50%, -50%);
-  z-index: -1;
-}
-
-@keyframes slide {
-  0% {
-    transform:translateX(-25%);
-  }
-  100% {
-    transform:translateX(25%);
+  &:hover {
+    background-color: $color-dark-green;
   }
 }

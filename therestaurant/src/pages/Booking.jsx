@@ -1,32 +1,30 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Bookingform } from "../components/booking/Bookingform";
-import { ConnectWallet } from "../components/booking/ConnectWallet";
 import { ShowBooking } from "../components/booking/ShowBooking";
-import {
-  loadReadContract,
-  loadWriteContract,
-  requestAccount,
-  walletChecker,
-} from "../services/blockchainService";
+import { ChooseRestaurant } from "../components/booking/ChooseRestaurant";
+import { walletChecker } from "../services/blockchainService";
+import { ContractContext } from "../context/ContractContext";
+import { WalletContext } from "../context/WalletContext";
 
 let errorMsg = "";
 
 walletChecker(errorMsg);
 
 export const Booking = () => {
-  const [wallet, setWallet] = useState([]);
-  const [readContract, setReadContract] = useState();
-  const [writeContract, setWriteContract] = useState();
+  const [restaurantList, setRestaurantList] = useState([]);
   const [booking, setBooking] = useState({
-    id: 0,
     numberOfGuests: 0,
     name: "",
     date: "",
     time: "",
-    resturantId: 0,
+    restaurantId: 0,
   });
   const [showBooking, setShowBooking] = useState("");
   const [loadingScreen, setLoadingScreen] = useState(false);
+  const [restaurantInput, setRestaurantInput] = useState(false);
+  const { writeContract, readContract } = useContext(ContractContext);
+
+  const { isConnected } = useContext(WalletContext);
 
   useEffect(() => {
     if (showBooking !== null) {
@@ -34,12 +32,21 @@ export const Booking = () => {
     }
   }, [showBooking]);
 
-  const connectWallet = async () => {
-    const account = await requestAccount();
-    setWallet(account);
+  const readRestaurant = useCallback(async () => {
+    let count = await readContract.restaurantCount();
 
-    const resturantWriteContract = await loadWriteContract();
-    setWriteContract(resturantWriteContract);
+    const restaurants = [];
+    for (let i = 1; i <= count; i++) {
+      const resturant = await readContract.restaurants(i);
+      restaurants.push(resturant);
+    }
+
+    setRestaurantList(restaurants);
+  }, [readContract]);
+
+  const handleEnterBooking = () => {
+    readRestaurant();
+    setRestaurantInput(true);
   };
 
   const handleBooking = (e) => {
@@ -53,7 +60,7 @@ export const Booking = () => {
         booking.name,
         booking.date,
         booking.time,
-        booking.resturantId,
+        booking.restaurantId,
       );
       await result.wait();
       returnBooking(booking);
@@ -63,6 +70,7 @@ export const Booking = () => {
   };
 
   const returnBooking = (booking) => {
+    console.log(booking);
     setLoadingScreen("true");
     setTimeout(() => {
       setShowBooking(booking);
@@ -70,14 +78,34 @@ export const Booking = () => {
   };
 
   return (
-    <div className="booking-wrapper">
-      <ConnectWallet connectWallet={connectWallet} wallet={wallet} />
-      <Bookingform
-        booking={booking}
-        handleBooking={handleBooking}
-        createBooking={createBooking}
-      />
-      <ShowBooking showBooking={showBooking} loadingScreen={loadingScreen} />
-    </div>
+    <>
+      <div className="booking-wrapper container">
+      <h1>Booking</h1>
+        {isConnected ? (
+          <ChooseRestaurant
+            showBooking={showBooking}
+            handleEnterBooking={handleEnterBooking}
+          />
+        ) : null}
+        {isConnected ? (
+          <Bookingform
+            restaurantInput={restaurantInput}
+            booking={booking}
+            handleBooking={handleBooking}
+            createBooking={createBooking}
+            restaurantList={restaurantList}
+            showBooking={showBooking}
+            loadingScreen={loadingScreen}
+          />
+        ) : (
+          <h2>Please connect the wallet to continue</h2>
+        )}
+        <ShowBooking
+          showBooking={showBooking}
+          loadingScreen={loadingScreen}
+          restaurantList={restaurantList}
+        />
+      </div>
+    </>
   );
 };

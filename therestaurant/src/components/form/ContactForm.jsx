@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { WalletContext } from "../../context/WalletContext";
 
 export const ContactForm = () => {
@@ -19,7 +19,7 @@ export const ContactForm = () => {
   };
 
   return (
-    <div className="contactForm-contianer">
+    <div className="container-contact">
       <form
         onSubmit={(e) => {
           e.preventDefault();

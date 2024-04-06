@@ -1,45 +1,64 @@
-import { useEffect, useState } from 'react';
-import { initializeBlockchain, createRestaurant } from '../services/blockchainService.js';
-import ConnectWalletButton from '../components/ConnectWalletButton';
-import { ShowRestaurants } from '../components/ShowRestaurants.jsx';
+import { useContext, useState } from "react";
+import { createRestaurant } from "../services/blockchainService.js";
+import { ShowRestaurants } from "../components/ShowRestaurants.jsx";
+import { ContractContext } from "../context/ContractContext.js";
+import { WalletContext } from "../context/WalletContext.js";
+import { ShowBookings } from "../components/admin/ShowBookings.jsx";
 
 export const Admin = () => {
-  const [newRestaurant, setNewRestaurant] = useState({name: ''});
-
-  useEffect(() => {
-    const initialize = async () => {
-      await initializeBlockchain();
-    };
-  
-    initialize();
-  }, []);
+  const [newRestaurant, setNewRestaurant] = useState({ name: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const { writeContract } = useContext(ContractContext);
+  const { isConnected } = useContext(WalletContext);
 
   const handleCreateRestaurant = async (event) => {
     event.preventDefault();
     const { name } = newRestaurant;
-    
+
     try {
-      await createRestaurant(name);
-      alert('Restaurant created successfully');
+      await createRestaurant(name, writeContract);
+      alert("Restaurant created successfully");
     } catch (error) {
-      console.error('Failed to create restaurant:', error);
+      console.error("Failed to create restaurant:", error);
     }
   };
 
   const handleInputChange = (event) => {
-    setNewRestaurant({...newRestaurant, [event.target.name]: event.target.value});
+    setNewRestaurant({
+      ...newRestaurant,
+      [event.target.name]: event.target.value,
+    });
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container">
       <h1>Admin</h1>
-      <ConnectWalletButton />
-      <form onSubmit={handleCreateRestaurant}>
-        <input type="text" name="name" value={newRestaurant.name} onChange={handleInputChange} placeholder="Restaurant Name" required />
+      {isConnected ? (
+        <form onSubmit={handleCreateRestaurant}>
+        <label>
+          <input
+            type="text"
+            name="name"
+            value={newRestaurant.name}
+            onChange={handleInputChange}
+            placeholder="Restaurant Name"
+            required
+          />
+        </label>
         <button type="submit">Create Restaurant</button>
       </form>
-  
-      <ShowRestaurants/>
+      ) : (
+        <p>Connect wallet to create a restaurant</p>
+      )}
+
+      {isConnected ? <ShowRestaurants /> : null}
+      <div>
+        <ShowBookings all={true} restaurantId={newRestaurant.id} />
+      </div>
     </div>
   );
 };

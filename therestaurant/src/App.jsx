@@ -3,10 +3,18 @@ import "./App.scss";
 import { router } from "./Router";
 import { useEffect, useState } from "react";
 import { WalletContext } from "./context/WalletContext";
+import { ContractContext } from "./context/ContractContext";
+import {
+  loadReadContract,
+  loadWriteContract,
+} from "./services/blockchainService";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [walletProvider, setWalletProvider] = useState(null);
+  const [readContract, setReadContract] = useState(null);
+  const [writeContract, setWriteContract] = useState(null);
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -16,6 +24,7 @@ function App() {
         });
         setWalletAddress(accounts[0]);
         setIsConnected(true);
+        setWalletProvider(accounts);
       } catch (error) {
         console.error(error);
       }
@@ -44,13 +53,31 @@ function App() {
         window.location.reload();
       });
     }
+
+    const Contracts = async () => {
+      const rContract = await loadReadContract();
+      setReadContract(rContract);
+
+      const wContract = await loadWriteContract();
+      setWriteContract(wContract);
+    };
+    Contracts();
   }, []);
+
   return (
     <>
       <WalletContext.Provider
-        value={{ walletAddress, isConnected, connectWallet, disconnectWallet }}
+        value={{
+          walletAddress, // string
+          isConnected, // boolean
+          connectWallet, // function
+          disconnectWallet, // function
+          walletProvider, // object
+        }}
       >
-        <RouterProvider router={router} />
+        <ContractContext.Provider value={{ readContract, writeContract }}>
+          <RouterProvider router={router} />
+        </ContractContext.Provider>
       </WalletContext.Provider>
     </>
   );

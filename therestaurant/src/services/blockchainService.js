@@ -1,32 +1,7 @@
 import { ethers } from "ethers";
 import { abi, contractAddress } from "./config.js";
 
-export let writeContract;
-let readContract;
-
-export const initializeBlockchain = async () => {
-  if (typeof window.ethereum !== "undefined") {
-    try {
-      await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      window.provider = new ethers.BrowserProvider(window.ethereum);
-
-      readContract = new ethers.Contract(contractAddress, abi, window.provider);
-
-      const signer = await window.provider.getSigner();
-      writeContract = new ethers.Contract(contractAddress, abi, signer);
-    } catch (error) {
-      console.error("Error in initializeBlockchain:", error);
-      return;
-    }
-  } else {
-    return;
-  }
-};
-
-export const createRestaurant = async (restaurantName) => {
+export const createRestaurant = async (restaurantName, writeContract) => {
   if (!writeContract) {
     return;
   }
@@ -39,7 +14,7 @@ export const createRestaurant = async (restaurantName) => {
   }
 };
 
-export const getRestaurants = async () => {
+export const getRestaurants = async (readContract) => {
   if (!readContract) {
     return [];
   }
@@ -57,8 +32,6 @@ export const getRestaurants = async () => {
   }
 };
 
-//Booking
-
 export const requestAccount = async () => {
   try {
     const result = await window.ethereum.request({
@@ -70,7 +43,7 @@ export const requestAccount = async () => {
   }
 };
 
-export const loadReadContract = () => {
+export const loadReadContract = async () => {
   const todoReadContract = new ethers.Contract(
     contractAddress,
     abi,
@@ -99,5 +72,63 @@ export const walletChecker = (errorMsg) => {
     console.error(errorMsg);
   } else {
     window.provider = new ethers.BrowserProvider(window.ethereum);
+  }
+};
+
+// Booking
+
+export const editBooking = async (
+  bookingId,
+  numberOfGuests,
+  name,
+  date,
+  time,
+  writeContract,
+) => {
+  try {
+    const result = await writeContract.editBooking(
+      bookingId,
+      numberOfGuests,
+      name,
+      date,
+      time,
+    );
+    await result.wait();
+  } catch (error) {
+    console.error("Error editing booking:", error);
+    throw error;
+  }
+};
+
+export const getBookings = async (restaurantId, readContract) => {
+  if (!readContract) {
+    return [];
+  }
+
+  try {
+    const count = await readContract.bookingCount();
+    const bookings = [];
+    for (let i = 1; i <= count; i++) {
+      const booking = await readContract.bookings(i);
+      if (booking.resturantId === restaurantId) {
+        bookings.push(booking);
+      }
+    }
+    return bookings;
+  } catch (error) {
+    console.error(`Failed to fetch bookings: ${error}`);
+  }
+};
+
+export const removeBooking = async (bookingId, writeContract) => {
+  try {
+    if (!writeContract) {
+      throw new Error("Write contract not initialized");
+    }
+    const result = await writeContract.removeBooking(bookingId);
+    await result.wait();
+  } catch (error) {
+    console.error("Error removing booking:", error);
+    throw error;
   }
 };
