@@ -99,7 +99,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
             console.log("Booking ID:", booking[0]);
             return (
               <li key={booking[0]}>
-                <p>Restaurant ID: {booking[1].toString()}</p>
+                <p>Restaurant ID: {booking[5].toString()}</p>
                 <p>Name: {booking[2]}</p>
                 <p>Date: {booking[3]}</p>
                 <p>Time: {booking[4].toString()}</p>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const ShowBooking = ({ showBooking, loadingScreen, restaurantList }) => {
+export const ShowBooking = ({ displayBookingConfirmation, loadingScreen, restaurantList }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -9,8 +9,9 @@ export const ShowBooking = ({ showBooking, loadingScreen, restaurantList }) => {
   };
 
   const findRestaurantName = (restaurantId) => {
+    console.log("find restaurant - restaurantId", restaurantId);
     const restaurant = restaurantList.find(
-      (restaurant) => restaurant[0].toString() === restaurantId.toString(),
+      (restaurant) => (restaurant[0].toString()) === (restaurantId),
     );
     return restaurant ? restaurant[1] : "Unknown Restaurant";
   };
@@ -18,14 +19,14 @@ export const ShowBooking = ({ showBooking, loadingScreen, restaurantList }) => {
   return (
     <>
       {loadingScreen && <div className="loading-wrapper">Loading...</div>}
-      {showBooking && (
+      {displayBookingConfirmation && (
         <div className="show-booking-wrapper">
           <h2>Your booking has been confirmed!</h2>
-          <div>Restaurant: {findRestaurantName(showBooking.restaurantId)}</div>
-          <div>Guests: {showBooking.numberOfGuests}</div>
-          <div>Your name: {showBooking.name}</div>
-          <div>Date: {showBooking.date}</div>
-          <div>Time: {showBooking.time}</div>
+          <div>Restaurant: {findRestaurantName(displayBookingConfirmation.restaurantId)}</div>
+          <div>Guests: {displayBookingConfirmation.numberOfGuests}</div>
+          <div>Your name: {displayBookingConfirmation.name}</div>
+          <div>Date: {displayBookingConfirmation.date}</div>
+          <div>Time: {displayBookingConfirmation.time}</div>
           <button onClick={handleClick}>OK</button>
         </div>
       )}
