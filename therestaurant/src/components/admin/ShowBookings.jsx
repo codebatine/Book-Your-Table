@@ -26,6 +26,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
             fetchedBookings.push(booking);
           }
           console.log("Fetched bookings:", fetchedBookings);
+          fetchedBookings.sort((a, b) => a - b);
           setBookings(fetchedBookings);
 
           console.log("Bookings array:", fetchedBookings);
@@ -90,21 +91,24 @@ export const ShowBookings = ({ restaurantId, all }) => {
     <div>
       <h2>Bookings</h2>
       <ul>
-        {bookings.map((booking) => {
-          console.log("Booking:", booking);
-          console.log("Booking ID:", booking[0]);
-          return (
-            <li key={booking[0]}>
-              <p>Restaurant ID: {booking[1].toString()}</p>
-              <p>Name: {booking[2]}</p>
-              <p>Date: {booking[3]}</p>
-              <p>Time: {booking[4].toString()}</p>
-              <p>Number of Guests: {booking[1].toString()}</p>
-              <button onClick={() => handleEdit(booking[0])}>Edit</button>
-              <button onClick={() => handleRemove(booking[0])}>Remove</button>
-            </li>
-          );
-        })}
+        {bookings
+          .filter((booking) => booking[1] != 0)
+          .sort((a, b) => Number(a[1]) - Number(b[1]))
+          .map((booking) => {
+            console.log("Booking:", booking);
+            console.log("Booking ID:", booking[0]);
+            return (
+              <li key={booking[0]}>
+                <p>Restaurant ID: {booking[1].toString()}</p>
+                <p>Name: {booking[2]}</p>
+                <p>Date: {booking[3]}</p>
+                <p>Time: {booking[4].toString()}</p>
+                <p>Number of Guests: {booking[1].toString()}</p>
+                <button onClick={() => handleEdit(booking[0])}>Edit</button>
+                <button onClick={() => handleRemove(booking[0])}>Remove</button>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
