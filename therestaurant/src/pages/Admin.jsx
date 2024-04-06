@@ -39,6 +39,7 @@ export const Admin = () => {
       <h1>Admin</h1>
       {isConnected ? (
         <form onSubmit={handleCreateRestaurant}>
+        <label>
           <input
             type="text"
             name="name"
@@ -47,8 +48,9 @@ export const Admin = () => {
             placeholder="Restaurant Name"
             required
           />
-          <button type="submit">Create Restaurant</button>
-        </form>
+        </label>
+        <button type="submit">Create Restaurant</button>
+      </form>
       ) : (
         <p>Connect wallet to create a restaurant</p>
       )}

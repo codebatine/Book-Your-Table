@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { WalletContext } from "../../context/WalletContext";
 
@@ -45,9 +45,12 @@ export const Navbar = () => {
               Contact
             </NavLink>
           </li>
-          <button onClick={!isConnected ? connectWallet : disconnectWallet}>
-            {!isConnected ? "Connect Wallet" : "Connected"}
-          </button>
+          <button 
+  className="connect-wallet-button" 
+  onClick={!isConnected ? connectWallet : disconnectWallet}
+>
+  {!isConnected ? "Connect Wallet" : "Connected"}
+</button>
           <span>{walletAddress}</span>
         </ul>
       </nav>

@@ -80,6 +80,7 @@ export const Booking = () => {
   return (
     <>
       <div className="booking-wrapper container">
+      <h1>Booking</h1>
         {isConnected ? (
           <ChooseRestaurant
             showBooking={showBooking}
