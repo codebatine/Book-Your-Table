@@ -3,12 +3,15 @@ import { createContext, useState, useEffect } from 'react';
 export const DarkModeContext = createContext();
 
 export const DarkModeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(
-    window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches,
-  );
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('dark-mode');
+    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return savedMode !== null ? savedMode === 'true' : prefersDarkMode;
+  });
 
   useEffect(() => {
+    localStorage.setItem('dark-mode', isDarkMode ? 'true' : 'false');
+
     if (isDarkMode) {
       document.body.classList.add('dark-mode');
     } else {
