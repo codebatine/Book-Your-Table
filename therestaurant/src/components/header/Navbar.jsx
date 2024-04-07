@@ -67,7 +67,7 @@ export const Navbar = () => {
               className={`toggle-dark-mode ${isDarkMode ? 'dark' : ''}`}
               onClick={toggleDarkMode}
             >
-              {isDarkMode ? '🌞' : '🌙'}
+              {isDarkMode ? '🔆' : '🌙'}
             </button>
           </li>
           <li>
