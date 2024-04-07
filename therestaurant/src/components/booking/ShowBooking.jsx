@@ -17,9 +17,10 @@ export const ShowBooking = ({ displayBookingConfirmation, loadingScreen, restaur
 
   return (
     <>
-      {loadingScreen && <div className="loading-wrapper">Loading...</div>}
+    <div className="container-contact">
+      {loadingScreen && <div>Loading...</div>}
       {displayBookingConfirmation && (
-        <div className="show-booking-wrapper">
+        <div className="container-contact">
           <h2>Your booking has been confirmed!</h2>
           <div>Restaurant: {findRestaurantName(displayBookingConfirmation.restaurantId)}</div>
           <div>Guests: {displayBookingConfirmation.numberOfGuests}</div>
@@ -29,6 +30,7 @@ export const ShowBooking = ({ displayBookingConfirmation, loadingScreen, restaur
           <button onClick={handleClick}>OK</button>
         </div>
       )}
+      </div>
     </>
   );
 };

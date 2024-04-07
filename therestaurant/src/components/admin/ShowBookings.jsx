@@ -88,28 +88,6 @@ export const ShowBookings = ({ restaurantId, all }) => {
       />
       <br />
       <ul>
-<<<<<<< HEAD
-        {bookings
-          .filter((booking) => booking[1] != 0)
-          .sort((a, b) => Number(a[5]) - Number(b[5]))
-          .map((booking) => {
-            return (
-              <li key={booking[0]}>
-                <div className="booking-detail">
-                  <p>Restaurant ID: {booking[5].toString()}</p>
-                  <p>Name: {booking[2]}</p>
-                  <p>Date: {booking[3]}</p>
-                  <p>Time: {booking[4].toString()}</p>
-                  <p>Number of Guests: {booking[1].toString()}</p>
-                </div>
-                <div className="booking-actions">
-                  <button onClick={() => handleEdit(booking[0])}>Edit</button>
-                  <button onClick={() => handleRemove(booking[0])}>Remove</button>
-                </div>
-              </li>
-            );
-          })}
-=======
       {bookings
   .filter(
     (booking) =>
@@ -117,7 +95,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
       (booking[2].toLowerCase().includes(searchTerm.toLowerCase()) ||
       booking[3].includes(searchTerm))
   )
-  .sort((a, b) => Number(a[1]) - Number(b[1]))
+  .sort((a, b) => Number(a[5]) - Number(b[5]))
   .map((booking) => {
     return (
       <li key={booking[0]}>
@@ -137,7 +115,6 @@ export const ShowBookings = ({ restaurantId, all }) => {
       </li>
     );
   })}
->>>>>>> a0ccc1d (Search bar for bookings in admin :dart:)
       </ul>
     </div>
   );

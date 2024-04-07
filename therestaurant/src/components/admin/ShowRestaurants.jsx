@@ -19,9 +19,6 @@ export const ShowRestaurants = () => {
     setShowRestaurants(!showRestaurants);
   };
 
-  console.log(restaurants);
-  console.log(showRestaurants);
-
   return (
     <div className="container-contact">
       <div className="booking-detail" style={{ alignItems: 'center'}}>
