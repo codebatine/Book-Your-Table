@@ -130,6 +130,29 @@ nav {
     margin: 0;
     padding: 0;
     align-items: center;
+  }
+
+  div,
+  ul li {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+
+    .booking-detail {
+      margin-top: 20px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .booking-actions {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      border-bottom: #000 1px solid;
+    }
 
     label {
       display: flex;
@@ -145,16 +168,43 @@ nav {
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+
+    button {
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 4px;
+      background-color: $color-dark;
+      color: white;
+      cursor: pointer;
+      width: 100%;
+
+      &:hover {
+        background-color: $color-dark-green;
+      }
+    }
   }
 }
 
-.crypto-logos {
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.about-us-section {
+  margin: 100px 50px 0 100px;
+}
+
+.container-contact .crypto-logos {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   gap: 1rem;
 
   img {
-    width: 80px;
+    width: 60px;
     height: auto;
   }
 }

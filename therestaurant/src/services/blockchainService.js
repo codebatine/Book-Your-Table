@@ -1,5 +1,5 @@
-import { ethers } from "ethers";
-import { abi, contractAddress } from "./config.js";
+import { ethers } from 'ethers';
+import { abi, contractAddress } from './config.js';
 
 export const createRestaurant = async (restaurantName, writeContract) => {
   if (!writeContract) {
@@ -9,7 +9,7 @@ export const createRestaurant = async (restaurantName, writeContract) => {
   try {
     await writeContract.createRestaurant(restaurantName);
   } catch (error) {
-    console.error("Error in createRestaurant:", error);
+    console.error('Error in createRestaurant:', error);
     throw error;
   }
 };
@@ -35,11 +35,11 @@ export const getRestaurants = async (readContract) => {
 export const requestAccount = async () => {
   try {
     const result = await window.ethereum.request({
-      method: "eth_requestAccounts",
+      method: 'eth_requestAccounts',
     });
     return result;
   } catch (error) {
-    console.error("Error requesting account:", error);
+    console.error('Error requesting account:', error);
   }
 };
 
@@ -47,7 +47,7 @@ export const loadReadContract = async () => {
   const todoReadContract = new ethers.Contract(
     contractAddress,
     abi,
-    window.provider,
+    window.provider
   );
 
   return todoReadContract;
@@ -59,7 +59,7 @@ export const loadWriteContract = async () => {
   const resturantWriteContract = new ethers.Contract(
     contractAddress,
     abi,
-    signer,
+    signer
   );
 
   return resturantWriteContract;
@@ -68,7 +68,7 @@ export const loadWriteContract = async () => {
 export const walletChecker = (errorMsg) => {
   if (!window.ethereum) {
     errorMsg =
-      "Ethers.js: Web3 provider not found. Please install a wallet with Web3 support.";
+      'Ethers.js: Web3 provider not found. Please install a wallet with Web3 support.';
     console.error(errorMsg);
   } else {
     window.provider = new ethers.BrowserProvider(window.ethereum);
@@ -77,13 +77,28 @@ export const walletChecker = (errorMsg) => {
 
 // Booking
 
+export const createBooking = async (booking, writeContract) => {
+  try {
+    const result = await writeContract.createBooking(
+      booking.numberOfGuests,
+      booking.name,
+      booking.date,
+      booking.time,
+      booking.restaurantId
+    );
+    await result.wait();
+  } catch (error) {
+    console.error('Error creating booking', error);
+  }
+};
+
 export const editBooking = async (
   bookingId,
   numberOfGuests,
   name,
   date,
   time,
-  writeContract,
+  writeContract
 ) => {
   try {
     const result = await writeContract.editBooking(
@@ -91,11 +106,11 @@ export const editBooking = async (
       numberOfGuests,
       name,
       date,
-      time,
+      time
     );
     await result.wait();
   } catch (error) {
-    console.error("Error editing booking:", error);
+    console.error('Error editing booking:', error);
     throw error;
   }
 };
@@ -123,12 +138,16 @@ export const getBookings = async (restaurantId, readContract) => {
 export const removeBooking = async (bookingId, writeContract) => {
   try {
     if (!writeContract) {
-      throw new Error("Write contract not initialized");
+      throw new Error('Write contract not initialized');
     }
     const result = await writeContract.removeBooking(bookingId);
     await result.wait();
   } catch (error) {
-    console.error("Error removing booking:", error);
+    console.error('Error removing booking:', error);
     throw error;
   }
 };
+
+//
+
+export const getBooking = async () => {};
