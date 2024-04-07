@@ -147,3 +147,7 @@ export const removeBooking = async (bookingId, writeContract) => {
     throw error;
   }
 };
+
+//
+
+export const getBooking = async () => {};

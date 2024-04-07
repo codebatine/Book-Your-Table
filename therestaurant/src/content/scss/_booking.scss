@@ -55,7 +55,6 @@
       .form-control {
         display: flex;
         flex-direction: column; // Stack label and input vertically
-        border-bottom: 1px solid grey;
         width: 100%; // Full width
 
         label {
@@ -74,22 +73,22 @@
       }
 
       .bookingTime {
+        display: block;
         margin: 10px 0;
         align-self: center; // Center the button
         padding: 10px;
         border: none;
         border-radius: 4px;
-        background-color: $color-dark;
-        color: white;
+        background-color: white;
+        color: black;
         cursor: pointer;
         width: 100%; // Make button take up the full width of its container
 
         &:hover {
-          background-color: $color-dark-green;
         }
 
         &.selected{
-          box-shadow: inset 0px 0px 0px 3px red;
+          box-shadow: inset 0px 0px 0px 2px black;
         }
       }
     }
