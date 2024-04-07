@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ContractContext } from '../../context/ContractContext';
-import { createBooking, getBooking } from "../../services/blockchainService";
+import { createBooking, getBookingFunc } from "../../services/blockchainService";
 
 export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking, handleSetBooking, restaurantList, displayBookingForm, returnBooking}) => {
 
@@ -10,7 +10,7 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
   useEffect(() => {
     const getBookingsFromRestauruntId = async () => {
       try {
-        const result = await getBooking(parseInt(booking.restaurantId), writeContract);
+        const result = await getBookingFunc(parseInt(booking.restaurantId), readContract);
         setBookings(result)
       } catch (error) {
         console.error("Failed to fetch bookings:", error);
