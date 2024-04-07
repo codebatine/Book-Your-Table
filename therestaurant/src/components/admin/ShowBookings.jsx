@@ -1,40 +1,32 @@
-import PropTypes from "prop-types";
-import { useState, useEffect, useContext } from "react";
+import PropTypes from 'prop-types';
+import { useState, useEffect, useContext } from 'react';
 import {
   editBooking,
   removeBooking,
   getBookings,
-} from "../../services/blockchainService.js";
-import { ContractContext } from "../../context/ContractContext.js";
+} from '../../services/blockchainService.js';
+import { ContractContext } from '../../context/ContractContext.js';
 
 export const ShowBookings = ({ restaurantId, all }) => {
   const [bookings, setBookings] = useState([]);
-
   const { readContract, writeContract } = useContext(ContractContext);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchBookings = async () => {
-      console.log("Current bookings:", bookings);
-
       try {
         if (readContract) {
-          console.log("Fetching bookings...");
           const bookingCount = await readContract.bookingCount();
           const fetchedBookings = [];
           for (let i = 1; i <= bookingCount; i++) {
             const booking = await readContract.bookings(i);
             fetchedBookings.push(booking);
           }
-          console.log("Fetched bookings:", fetchedBookings);
           fetchedBookings.sort((a, b) => a - b);
           setBookings(fetchedBookings);
-
-          console.log("Bookings array:", fetchedBookings);
-        } else {
-          console.error("Read contract is null");
         }
       } catch (error) {
-        console.error("Failed to fetch bookings:", error);
+        console.error('Failed to fetch bookings:', error);
       }
     };
 
@@ -42,12 +34,11 @@ export const ShowBookings = ({ restaurantId, all }) => {
   }, [restaurantId, all, readContract]);
 
   const handleEdit = async (bookingId) => {
-    const numberOfGuests = prompt("Enter the updated number of guests");
-    const name = prompt("Enter the updated name");
-    const date = prompt("Enter the updated date");
-    const time = prompt("Enter the updated time");
+    const numberOfGuests = prompt('Enter the updated number of guests');
+    const name = prompt('Enter the updated name');
+    const date = prompt('Enter the updated date');
+    const time = prompt('Enter the updated time');
     try {
-      console.log("Editing booking...");
       await editBooking(
         bookingId,
         numberOfGuests,
@@ -56,59 +47,74 @@ export const ShowBookings = ({ restaurantId, all }) => {
         time,
         writeContract,
       );
-      console.log("Waiting for changes to propagate...");
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      console.log("Fetching updated bookings...");
       const fetchedBookings = await getBookings(readContract, restaurantId);
-      console.log("Fetched updated bookings:", fetchedBookings);
-      setBookings(fetchedBookings);
+      setBookings(
+        fetchedBookings.filter((booking) => booking[0] !== bookingId),
+      );
+      window.alert('The booking has been edited.');
     } catch (error) {
-      console.error("Failed to edit booking:", error);
+      console.error('Failed to edit booking:', error);
     }
   };
 
   const handleRemove = async (bookingId) => {
     const confirmRemove = window.confirm(
-      "Are you sure you want to remove this booking?",
+      'Are you sure you want to remove this booking?',
     );
     if (confirmRemove) {
       try {
-        console.log("Removing booking...");
         await removeBooking(bookingId, writeContract);
-        console.log("Waiting for changes to propagate...");
         await new Promise((resolve) => setTimeout(resolve, 5000));
-        console.log("Fetching updated bookings...");
         const fetchedBookings = await getBookings(readContract, restaurantId);
-        console.log("Fetched updated bookings:", fetchedBookings);
         setBookings(fetchedBookings);
+        window.alert('The booking has been removed.');
       } catch (error) {
-        console.error("Failed to remove booking:", error);
+        console.error('Failed to remove booking:', error);
       }
     }
   };
 
   return (
-    <div>
+    <div className="container-contact">
       <h2>Bookings</h2>
+      <br />
+      <input
+        className='search-input'
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <br />
       <ul>
-        {bookings
-          .filter((booking) => booking[1] != 0)
-          .sort((a, b) => Number(a[1]) - Number(b[1]))
-          .map((booking) => {
-            console.log("Booking:", booking);
-            console.log("Booking ID:", booking[0]);
-            return (
-              <li key={booking[0]}>
-                <p>Restaurant ID: {booking[1].toString()}</p>
-                <p>Name: {booking[2]}</p>
-                <p>Date: {booking[3]}</p>
-                <p>Time: {booking[4].toString()}</p>
-                <p>Number of Guests: {booking[1].toString()}</p>
-                <button onClick={() => handleEdit(booking[0])}>Edit</button>
-                <button onClick={() => handleRemove(booking[0])}>Remove</button>
-              </li>
-            );
-          })}
+      {bookings
+  .filter(
+    (booking) =>
+      booking[1] != 0 &&
+      (booking[2].toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking[3].includes(searchTerm))
+  )
+  .sort((a, b) => Number(a[1]) - Number(b[1]))
+  .map((booking) => {
+    return (
+      <li key={booking[0]}>
+        <div className="booking-detail">
+          <p>Restaurant ID: {booking[5].toString()}</p>
+          <p>Name: {booking[2]}</p>
+          <p>Date: {booking[3]}</p>
+          <p>Time: {booking[4].toString()}</p>
+          <p>Number of Guests: {booking[1].toString()}</p>
+        </div>
+        <div className="booking-actions">
+          <button onClick={() => handleEdit(booking[0])}>Edit</button>
+          <button onClick={() => handleRemove(booking[0])}>
+            Remove
+          </button>
+        </div>
+      </li>
+    );
+  })}
       </ul>
     </div>
   );

@@ -17,18 +17,20 @@ export const ShowBooking = ({ showBooking, loadingScreen, restaurantList }) => {
 
   return (
     <>
-      {loadingScreen && <div className="loading-wrapper">Loading...</div>}
-      {showBooking && (
-        <div className="show-booking-wrapper">
-          <h2>Your booking has been confirmed!</h2>
-          <div>Restaurant: {findRestaurantName(showBooking.restaurantId)}</div>
-          <div>Guests: {showBooking.numberOfGuests}</div>
-          <div>Your name: {showBooking.name}</div>
-          <div>Date: {showBooking.date}</div>
-          <div>Time: {showBooking.time}</div>
-          <button onClick={handleClick}>OK</button>
-        </div>
-      )}
+      <div className="container-contact">
+        {loadingScreen && <div>Loading...</div>}
+        {showBooking && (
+          <div className="container-contact">
+            <h2>Your booking has been confirmed!</h2>
+            <div>Restaurant: {findRestaurantName(showBooking.restaurantId)}</div>
+            <div>Guests: {showBooking.numberOfGuests}</div>
+            <div>Your name: {showBooking.name}</div>
+            <div>Date: {showBooking.date}</div>
+            <div>Time: {showBooking.time}</div>
+            <button onClick={handleClick}>OK</button>
+          </div>
+        )}
+      </div>
     </>
   );
 };
