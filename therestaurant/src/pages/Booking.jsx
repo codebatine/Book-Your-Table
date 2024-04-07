@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Bookingform } from "../components/booking/Bookingform";
 import { ShowBooking } from "../components/booking/ShowBooking";
 import { ChooseRestaurant } from "../components/booking/ChooseRestaurant";
-import { walletChecker } from "../services/blockchainService";
+import { getRestaurants, walletChecker } from "../services/blockchainService";
 import { ContractContext } from "../context/ContractContext";
 import { WalletContext } from "../context/WalletContext";
 
@@ -17,65 +17,47 @@ export const Booking = () => {
     name: "",
     date: "",
     time: "",
-    restaurantId: 0,
+    restaurantId: "",
   });
-  const [showBooking, setShowBooking] = useState("");
-  const [loadingScreen, setLoadingScreen] = useState(false);
-  const [restaurantInput, setRestaurantInput] = useState(false);
-  const { writeContract, readContract } = useContext(ContractContext);
+  const [ displayBookingConfirmation, setdisplayBookingConfirmation] = useState("");
+  const [ displayBookingForm, setdisplayBookingForm] = useState(false);
+  const [ loadingScreen, setLoadingScreen] = useState(false);
+  const { readContract } = useContext(ContractContext);
 
   const { isConnected } = useContext(WalletContext);
 
   useEffect(() => {
-    if (showBooking !== null) {
+    const rest = async () => {
+      const result = await getRestaurants(readContract);
+      setRestaurantList(result);
+    }
+    rest();
+  }, []);
+
+  useEffect(() => {
+    if (displayBookingConfirmation !== null) {
       setLoadingScreen(false);
     }
-  }, [showBooking]);
+  }, [displayBookingConfirmation]);
 
-  const readRestaurant = useCallback(async () => {
-    let count = await readContract.restaurantCount();
-
-    const restaurants = [];
-    for (let i = 1; i <= count; i++) {
-      const resturant = await readContract.restaurants(i);
-      restaurants.push(resturant);
-    }
-
-    setRestaurantList(restaurants);
-  }, [readContract]);
-
-  const handleEnterBooking = () => {
-    readRestaurant();
-    setRestaurantInput(true);
+  const handleEnterBooking = async () => {
+    const result = await getRestaurants(readContract);
+    setRestaurantList(result);
+    setdisplayBookingForm(true);
   };
 
-  const handleBooking = (e) => {
+  const handleSetBooking = (e) => {
     setBooking({ ...booking, [e.target.name]: e.target.value });
   };
 
-  const createBooking = async () => {
-    try {
-      const result = await writeContract.createBooking(
-        booking.numberOfGuests,
-        booking.name,
-        booking.date,
-        booking.time,
-        booking.restaurantId,
-      );
-      await result.wait();
-      returnBooking(booking);
-    } catch (error) {
-      console.error("Error creating resturant", error);
-    }
-  };
-
-  const returnBooking = (booking) => {
-    console.log(booking);
+  const returnBooking = () => {
     setLoadingScreen("true");
     setTimeout(() => {
-      setShowBooking(booking);
+      setdisplayBookingConfirmation(booking);
     }, 3000);
   };
+
+  
 
   return (
     <>
@@ -83,25 +65,25 @@ export const Booking = () => {
       <h1>Booking</h1>
         {isConnected ? (
           <ChooseRestaurant
-            showBooking={showBooking}
+            displayBookingConfirmation={displayBookingConfirmation}
             handleEnterBooking={handleEnterBooking}
           />
         ) : null}
         {isConnected ? (
           <Bookingform
-            restaurantInput={restaurantInput}
+            displayBookingForm={displayBookingForm}
             booking={booking}
-            handleBooking={handleBooking}
-            createBooking={createBooking}
+            returnBooking={returnBooking}
+            handleSetBooking={handleSetBooking}
             restaurantList={restaurantList}
-            showBooking={showBooking}
+            displayBookingConfirmation={displayBookingConfirmation}
             loadingScreen={loadingScreen}
           />
         ) : (
           <h2>Please connect the wallet to continue</h2>
         )}
         <ShowBooking
-          showBooking={showBooking}
+          displayBookingConfirmation={displayBookingConfirmation}
           loadingScreen={loadingScreen}
           restaurantList={restaurantList}
         />

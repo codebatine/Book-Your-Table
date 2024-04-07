@@ -95,7 +95,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
       (booking[2].toLowerCase().includes(searchTerm.toLowerCase()) ||
       booking[3].includes(searchTerm))
   )
-  .sort((a, b) => Number(a[1]) - Number(b[1]))
+  .sort((a, b) => Number(a[5]) - Number(b[5]))
   .map((booking) => {
     return (
       <li key={booking[0]}>
