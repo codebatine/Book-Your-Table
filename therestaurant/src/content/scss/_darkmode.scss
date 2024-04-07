@@ -1,0 +1,35 @@
+body.dark-mode {
+  background-color: $color-dark;
+  color: $color-white;
+}
+
+.dark-mode {
+  --primary-color: $color-dark;
+  --secondary-color: $color-dark-green;
+  background-color: $color-dark;
+  color: $color-white;
+}
+
+.toggle-dark-mode {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
+  outline: none;
+  margin-right: 3rem;
+  color: $color-dark;
+}
+
+.toggle-dark-mode.dark {
+  color: $color-white;
+}
+
+.toggle-dark-mode:hover,
+.toggle-dark-mode:focus,
+.toggle-dark-mode:active {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+}
