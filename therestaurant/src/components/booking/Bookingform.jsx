@@ -4,9 +4,9 @@ import { createBooking, getBookingFunc } from "../../services/blockchainService"
 
 export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking, handleSetBooking, restaurantList, displayBookingForm, returnBooking}) => {
 
-  const [bookings, setBookings] = useState([]);
-  const [allBookings, setAllBookings] = useState([]);
-  const [filterBookingDate, setFilterBookingDate] = useState([]);
+  const [ bookings, setBookings] = useState([]);
+  const [ allBookings, setAllBookings] = useState([]);
+  const [ filterBookingDate, setFilterBookingDate] = useState([]);
   const [ bookings1800, setBookings1800] = useState([]);
   const [ bookings2100, setBookings2100] = useState([]);
   const [ tablesRemain1800, setTablesRemain1800] = useState(15);
@@ -105,60 +105,71 @@ try {
           {restaurantList.map((restaurant) => (<option key={restaurant[0].toString()} value={restaurant[0].toString()}>{restaurant[1]}</option>))}
           </select>
         </div>
-        <div className="form-control">
-            <label htmlFor="booking-form-date">Date</label>
-            <input 
-            type="date"
-            name="date"
-            id="booking-form-date"
-            value={booking.date}
-            onChange={handleSetBooking}
-            required
+        {booking.restaurantId !== "" && (
+        <>
+          <div className="form-control">
+              <label htmlFor="booking-form-date">Date</label>
+              <input 
+              type="date"
+              name="date"
+              id="booking-form-date"
+              value={booking.date}
+              onChange={handleSetBooking}
+              required
+              />
+          </div>
+          {booking.date !== "" && (
+            <>
+          <div className="form-control">
+            <label className="choose-time-wrapper" htmlFor="booking-form-time-1800">Book 18:00:
+              <input type="radio" id="booking-form-time-1800"
+                onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "1800" } })}}
+                className={booking.time === "1800" ? "bookingTime selected" : "bookingTime"} disabled={tablesRemain1800 === 0}
+              />
+              <span>{`${tablesRemain1800} tables remaining with 6 seats at 18:00`}</span>
+              </label>
+          </div>
+          <div className="form-control">
+            <label className="choose-time-wrapper" htmlFor="booking-form-time-2100">Book 21:00:
+            <input type="radio" id="booking-form-time-2100"
+              onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "2100" } })}}
+              className={booking.time === "2100" ? "bookingTime selected" : "bookingTime"} disabled={tablesRemain2100 === 0}
             />
-        </div>
-        <div className="form-control">
-          <label className="choose-time-wrapper" htmlFor="booking-form-time-1800">Book 18:00:
-            <input type="radio" id="booking-form-time-1800"
-              onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "1800" } })}}
-              className={booking.time === "1800" ? "bookingTime selected" : "bookingTime"}
-            />
-            <span>{`${tablesRemain1800} tables remaining with 6 seats at 18:00`}</span>
+            <span>{`${tablesRemain2100} tables remaining with 6 seats at 21:00`}</span>
             </label>
-        </div>
-        <div className="form-control">
-          <label className="choose-time-wrapper" htmlFor="booking-form-time-2100">Book 21:00:
-          <input type="radio" id="booking-form-time-2100"
-            onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "2100" } })}}
-            className={booking.time === "2100" ? "bookingTime selected" : "bookingTime"}
-          />
-          <span>{`${tablesRemain2100} tables remaining with 6 seats at 21:00`}</span>
-          </label>
-        </div>
-        <div className="form-control">
-          <label htmlFor="booking-form-numberOfGuests">Number of Guests</label>
-          <input 
-          type="number"
-          name="numberOfGuests"
-          id="booking-form-numberOfGuests"
-          value={booking.numberOfGuests}
-          onChange={handleSetBooking}
-          required
-          min="1"
-          max="6"
-          />
-        </div>
-        <div className="form-control">
-          <label htmlFor="booking-form-numbername">Your name</label>
-          <input 
-          type="text"
-          name="name"
-          id="booking-form-numbername"
-          value={booking.name}
-          onChange={handleSetBooking}
-          required
-          />
-        </div>
-        <button>Add Booking</button>
+          </div>
+          {booking.time !== "" && (
+            <>
+              <div className="form-control">
+                <label htmlFor="booking-form-numberOfGuests">Number of Guests</label>
+                <input 
+                type="number"
+                name="numberOfGuests"
+                id="booking-form-numberOfGuests"
+                value={booking.numberOfGuests}
+                onChange={handleSetBooking}
+                required
+                min="1"
+                max="6"
+                autoComplete="off"
+                />
+              </div>
+              <div className="form-control">
+                <label htmlFor="booking-form-numbername">Your name</label>
+                <input 
+                type="text"
+                name="name"
+                id="booking-form-numbername"
+                value={booking.name}
+                onChange={handleSetBooking}
+                required
+                autoComplete="off"
+                />
+              </div>
+              <button>Add Booking</button>
+            </>)}
+          </>)}
+        </>)}
       </form>
     </div>}
   </>
