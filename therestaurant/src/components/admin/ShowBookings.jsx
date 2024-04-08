@@ -40,9 +40,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
   const handleFilterChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
-    if (e.target.value) {
-      setSearchActive(true);
-    } else {
+    if (e.target.value === "") {
       setSearchActive(false);
     }
     console.log(searchActive);
@@ -59,6 +57,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
       return false;
     });
     setFilteredBookings(filteredBookings);
+    setSearchActive(true);
   };
 
   const handleEdit = async (bookingId) => {
