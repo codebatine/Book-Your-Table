@@ -6,6 +6,7 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
 
   const [bookings, setBookings] = useState([]);
   const [allBookings, setAllBookings] = useState([]);
+  const [filterBookingDate, setFilterBookingDate] = useState([]);
   const [ bookings1800, setBookings1800] = useState([]);
   const [ bookings2100, setBookings2100] = useState([]);
   const [ tablesRemain1800, setTablesRemain1800] = useState(15);
@@ -34,37 +35,42 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
   }, [])
 
   useEffect(() => {
-    console.log("Start useEffect");
+    if(booking.restaurantId !== ""){
     const getBookingsFromRestauruntId = async () => {
       try {
-        console.log(parseInt(booking.restaurantId));
         const result = await getBookingFunc(parseInt(booking.restaurantId), readContract);
         setBookings(result)
       } catch (error) {
         console.error("Failed to fetch bookings:", error);
       }
     };
-
     getBookingsFromRestauruntId();
+  }
   }, [booking]);
 
   useEffect(() => {
-
     const filterAllBookings = () => {
     try {
-        console.log("run checker");
-        const filtertedBookingsPerRestaurunt = allBookings.filter(booking => bookings.includes(booking[5]));
-        console.log("filtered Bookings", filtertedBookingsPerRestaurunt);
-        const filter1800 = filtertedBookingsPerRestaurunt.filter(booking => booking[4] === 1800n)
-        setBookings1800(filter1800);
-        const filter2100 = filtertedBookingsPerRestaurunt.filter(booking => booking[4] === 2100n)
-        setBookings2100(filter2100);
+        const filtertedBookingsPerRestaurunt = allBookings.filter(item => bookings.includes(item[5]));
+        const filterDate = filtertedBookingsPerRestaurunt.filter(item => item[3] === booking.date)
+        setFilterBookingDate(filterDate)
     } catch (error) {
       console.error("Failed to filter bookings:", error);
     }
   }
     filterAllBookings();
   }, [bookings]);
+
+useEffect(() => {
+try {
+  const filter1800 = filterBookingDate.filter(item => item[4] === 1800n)
+  setBookings1800(filter1800);
+  const filter2100 = filterBookingDate.filter(item => item[4] === 2100n)
+  setBookings2100(filter2100);
+} catch (error) {
+  
+}
+}, [filterBookingDate])
 
   useEffect(() => {
     try {
@@ -86,18 +92,6 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
     }
   }
 
-
-
-  // console.log("booking form input", booking);
-  // console.log("restuarunt list", restaurantList);
-  console.log("all Bookings", allBookings);
-  console.log("bookings", bookings);
-  console.log("bookings1800", bookings1800.length);
-  console.log("bookings2100", bookings2100.length);
-
-  
-  
-
   return (
     <>{(!displayBookingConfirmation && !loadingScreen && displayBookingForm) &&     
     <div className="form-wrapper">
@@ -110,6 +104,35 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
             <option value="" disabled>Välj restaurang</option>
           {restaurantList.map((restaurant) => (<option key={restaurant[0].toString()} value={restaurant[0].toString()}>{restaurant[1]}</option>))}
           </select>
+        </div>
+        <div className="form-control">
+            <label htmlFor="booking-form-date">Date</label>
+            <input 
+            type="date"
+            name="date"
+            id="booking-form-date"
+            value={booking.date}
+            onChange={handleSetBooking}
+            required
+            />
+        </div>
+        <div className="form-control">
+          <label className="choose-time-wrapper" htmlFor="booking-form-time-1800">Book 18:00:
+            <input type="radio" id="booking-form-time-1800"
+              onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "1800" } })}}
+              className={booking.time === "1800" ? "bookingTime selected" : "bookingTime"}
+            />
+            <span>{`${tablesRemain1800} tables remaining with 6 seats at 18:00`}</span>
+            </label>
+        </div>
+        <div className="form-control">
+          <label className="choose-time-wrapper" htmlFor="booking-form-time-2100">Book 21:00:
+          <input type="radio" id="booking-form-time-2100"
+            onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "2100" } })}}
+            className={booking.time === "2100" ? "bookingTime selected" : "bookingTime"}
+          />
+          <span>{`${tablesRemain2100} tables remaining with 6 seats at 21:00`}</span>
+          </label>
         </div>
         <div className="form-control">
           <label htmlFor="booking-form-numberOfGuests">Number of Guests</label>
@@ -135,31 +158,6 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
           required
           />
         </div>
-        <div className="form-control">
-            <label htmlFor="booking-form-date">Date</label>
-            <input 
-            type="date"
-            name="date"
-            id="booking-form-date"
-            value={booking.date}
-            onChange={handleSetBooking}
-            required
-            />
-          </div>
-        <div className="form-control">
-        <div>
-          <label htmlFor="booking-form-time-1800">18:00</label><span>{tablesRemain1800} tables remain</span>
-          <input type="radio" id="booking-form-time-1800"
-            onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "1800" } })}}
-            className={booking.time === "1800" ? "bookingTime selected" : "bookingTime"}
-          />
-          <label htmlFor="booking-form-time-2100">21:00</label><span>{tablesRemain2100} tables remain</span>
-          <input type="radio" id="booking-form-time-2100"
-            onClick={(e) => {e.preventDefault(); handleSetBooking({ target: { name: "time", value: "2100" } })}}
-            className={booking.time === "2100" ? "bookingTime selected" : "bookingTime"}
-          />
-        </div>
-      </div>
         <button>Add Booking</button>
       </form>
     </div>}

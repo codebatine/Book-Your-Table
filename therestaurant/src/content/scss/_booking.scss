@@ -70,25 +70,34 @@
           align-self: center;
           margin-top: 10px;
         }
+
+        .choose-time-wrapper{
+          border: 1px solid black;
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba(70, 255, 116, 0.521);
+          }
+        }
       }
 
       .bookingTime {
         display: block;
         margin: 10px 0;
-        align-self: center;
         padding: 10px;
         border: none;
         border-radius: 4px;
-        background-color: white;
         color: black;
-        cursor: pointer;
         width: 100%;
+        cursor: pointer;
 
         &:hover {
+          border: 1px solid black;
         }
 
         &.selected{
-          box-shadow: inset 0px 0px 0px 2px black;
+          background-color: red;
+          border: 1px solid black;
         }
       }
     }

@@ -154,11 +154,8 @@ export const getBookingFunc = async (restaurantId, readContract) => {
   if (!readContract) {
     return [];
   }
-
   try {
     const bookings = await readContract.getBookings(restaurantId);
-    console.log('contract', bookings);
-
     return bookings;
   } catch (error) {
     console.error(`Failed to fetch bookings: ${error}`);
