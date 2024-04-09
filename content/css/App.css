@@ -70,7 +70,7 @@ h2 {
 }
 
 body {
-  background-color: #ffffff;
+  background-color: #fdfcfa;
 }
 
 header {
@@ -337,14 +337,14 @@ header {
 }
 body.dark-mode {
   background-color: #242424;
-  color: #ffffff;
+  color: #fdfcfa;
 }
 
 .dark-mode {
   --primary-color: $color-dark;
   --secondary-color: $color-dark-green;
   background-color: #242424;
-  color: #ffffff;
+  color: #fdfcfa;
 }
 
 .toggle-dark-mode {
@@ -397,7 +397,7 @@ body.dark-mode {
 }
 
 .toggle-switch input:checked ~ .slider {
-  background-color: #ffffff;
+  background-color: #fdfcfa;
 }
 
 .toggle-switch .slider::before {
@@ -408,7 +408,7 @@ body.dark-mode {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  box-shadow: inset 14px -2px 0px 0px #ffffff;
+  box-shadow: inset 14px -2px 0px 0px #fdfcfa;
   background-color: #242424;
   transition: 0.3s;
 }
@@ -424,7 +424,7 @@ body h2 {
 }
 
 body.dark-mode h2 {
-  color: #ffffff;
+  color: #fdfcfa;
 }
 
 nav {

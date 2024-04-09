@@ -1,13 +1,13 @@
 body.dark-mode {
   background-color: $color-dark;
-  color: $color-white;
+  color: $color-cream-white;
 }
 
 .dark-mode {
   --primary-color: $color-dark;
   --secondary-color: $color-dark-green;
   background-color: $color-dark;
-  color: $color-white;
+  color: $color-cream-white;
 }
 
 .toggle-dark-mode {
@@ -60,7 +60,7 @@ body.dark-mode {
 }
 
 .toggle-switch input:checked ~ .slider {
-  background-color: $color-white;
+  background-color: $color-cream-white;
 }
 
 .toggle-switch .slider::before {
@@ -71,7 +71,7 @@ body.dark-mode {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  box-shadow: inset 14px -2px 0px 0px $color-white;
+  box-shadow: inset 14px -2px 0px 0px $color-cream-white;
   background-color: $color-dark;
   transition: 0.3s;
 }
@@ -90,6 +90,6 @@ body {
 
 body.dark-mode {
   h2 {
-    color: $color-white;
+    color: $color-cream-white;
   }
 }

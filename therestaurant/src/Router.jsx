@@ -6,6 +6,7 @@ import { Booking } from "./pages/Booking";
 import { Thankyou } from "./pages/Thankyou";
 import { Contact } from "./pages/Contact";
 import { Admin } from "./pages/Admin";
+import { DataKeep } from "./pages/DataKeep";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
       { path: "booking", element: <Booking /> },
       { path: "admin", element: <Admin /> },
       { path: "contact", element: <Contact /> },
+      { path: "datakeep", element: <DataKeep /> },
     ],
   },
 ]);

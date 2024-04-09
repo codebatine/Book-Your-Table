@@ -10,6 +10,7 @@ export const Footer = () => {
         <NavLink to={'/booking'}>Booking</NavLink>
         <NavLink to={'/admin'}>Admin</NavLink>
         <NavLink to={'/contact'}>Contact</NavLink>
+        <NavLink to={'/datakeep'}>Privacy Policy</NavLink>
       </div>
       <div className="social-links">
         <a
