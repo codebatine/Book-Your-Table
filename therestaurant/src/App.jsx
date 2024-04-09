@@ -39,20 +39,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts) => {
-        if (accounts.length > 0) {
-          setWalletAddress(accounts[0]);
-          setIsConnected(true);
-        } else {
-          disconnectWallet();
-        }
-      });
-
-      window.ethereum.on("chainChanged", () => {
-        window.location.reload();
-      });
-    }
+    connectWallet();
 
     const Contracts = async () => {
       const rContract = await loadReadContract();
