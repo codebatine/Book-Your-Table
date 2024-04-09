@@ -9,7 +9,7 @@
   max-width: 1000px;
   margin: 200px auto 0 auto;
   padding: 20px;
-  background-color: rgba(105, 253, 204, 0.521);
+  background-color: $color-green;
   border-radius: .25em;
   box-shadow: 0 0 .25em rgba($color-green, .25);
   box-sizing: border-box;
@@ -76,7 +76,7 @@
           cursor: pointer;
 
           &:hover {
-            background-color: rgba(70, 255, 116, 0.521);
+            background-color: rgba($color-green, .25);
           }
         }
       }

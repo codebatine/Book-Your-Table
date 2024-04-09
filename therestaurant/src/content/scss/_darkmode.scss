@@ -81,3 +81,15 @@ body.dark-mode {
   background-color: $color-dark;
   box-shadow: none;
 }
+
+body {
+  h2 {
+    color: $color-dark;
+  }
+}
+
+body.dark-mode {
+  h2 {
+    color: $color-white;
+  }
+}

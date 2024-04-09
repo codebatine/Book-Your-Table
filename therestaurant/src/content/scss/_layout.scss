@@ -11,54 +11,17 @@ header {
   align-items: center;
 }
 
-nav {
-  padding: 15px 20px;
+@mixin button-styles {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: $color-dark;
+  color: white;
+  cursor: pointer;
+  width: 100%;
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 20px;
-
-    li {
-      font-size: 150%;
-      display: inline-block;
-      padding: 10px;
-
-      a {
-        color: $color-dark;
-        text-decoration: none;
-
-        &:hover {
-          color: $color-cream-white;
-        }
-      }
-    }
-
-    .current {
-      color: $color-dark-green;
-    }
-  }
-
-  @media (max-width: 800px) {
-    padding: 0;
-
-    ul {
-      display: none;
-
-      &.open {
-        display: flex;
-        flex-direction: column;
-        background-color: $color-green;
-        width: 100vw;
-        height: 100vh;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 20%;
-        z-index: 99;
-      }
-    }
+  &:hover {
+    background-color: $color-dark-green;
   }
 }
 
@@ -71,7 +34,7 @@ nav {
   max-width: 1000px;
   margin: 150px auto 0 auto;
   padding: 3rem;
-  background-color:rgba($color-green, .5);
+  background-color: $color-green;
   border-radius:.25em;
   box-shadow:0 0 .25em rgba($color-green, .25);
   box-sizing:border-box;
@@ -121,6 +84,7 @@ nav {
 .container-contact {
   margin: 50px auto 0 auto;
   width: 100%;
+  background: $color-green;
 
   form {
     display: flex;
@@ -171,7 +135,6 @@ nav {
 
     button {
       padding: 10px;
-      margin: 10px 0;
       border: none;
       border-radius: 4px;
       background-color: $color-dark;
@@ -180,7 +143,7 @@ nav {
       width: 100%;
 
       &:hover {
-        background-color: $color-dark-green;
+        background-color: $color-dark;
       }
     }
   }
@@ -225,7 +188,6 @@ nav {
   &:hover {
     background-color: $color-dark-green;
   }
-}
 
 .nav-wallet-button {
   position: relative;
@@ -235,4 +197,5 @@ nav {
   .nav-wallet-button {
     margin-top: 50px;
   }
+}
 }

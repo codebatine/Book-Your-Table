@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { createRestaurant } from "../services/blockchainService.js";
 import { ShowRestaurants } from "../components/admin/ShowRestaurants.jsx";
 import { ContractContext } from "../context/ContractContext.js";
@@ -12,6 +12,13 @@ export const Admin = () => {
   const [isLoading] = useState(false);
   const { writeContract } = useContext(ContractContext);
   const { isConnected } = useContext(WalletContext);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('loggedIn');
+    if (loggedIn) {
+      setLoggedIn(JSON.parse(loggedIn));
+    }
+  }, []);
 
   const handleCreateRestaurant = async (event) => {
     event.preventDefault();
@@ -38,7 +45,8 @@ export const Admin = () => {
 
   const handleLogin = () => {
     if(admin.username === "admin" && admin.password === "123") {
-      setLoggedIn(true)
+      setLoggedIn(true);
+      localStorage.setItem('loggedIn', true);
     } else {
       alert("Wrong username or password!")
     }

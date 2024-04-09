@@ -1,0 +1,50 @@
+nav {
+  padding: 15px 20px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+
+    li {
+      font-size: 150%;
+      display: inline-block;
+      padding: 10px;
+
+      a {
+        color: $color-dark;
+        text-decoration: none;
+
+        &:hover {
+          color: $color-cream-white;
+        }
+      }
+    }
+
+    .current {
+      color: $color-dark-green;
+    }
+  }
+
+  @media (max-width: 800px) {
+    padding: 0;
+
+    ul {
+      display: none;
+
+      &.open {
+        display: flex;
+        flex-direction: column;
+        background-color: $color-green;
+        width: 100vw;
+        height: 100vh;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 20%;
+        z-index: 99;
+      }
+    }
+  }
+}
