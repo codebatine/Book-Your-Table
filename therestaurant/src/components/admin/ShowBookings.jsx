@@ -53,6 +53,10 @@ export const ShowBookings = ({ restaurantId, all }) => {
       } else if (filterType === "time") {
         const timeStr = convertTime(booking[4]);
         return timeStr === searchTerm;
+      } else if (filterType === "name") {
+        return booking[2].toLowerCase().includes(searchTerm.toLowerCase());
+      } else if (filterType === "BookingId") {
+        return booking[0].toString() === searchTerm;
       }
       return false;
     });
@@ -113,13 +117,37 @@ export const ShowBookings = ({ restaurantId, all }) => {
         >
           <option value="date">Date</option>
           <option value="time">Time</option>
+          <option value="name">Name</option>
+          <option value="BookingId">Booking ID</option>
         </select>
-        <input
-          type="text"
-          placeholder="Enter search term"
-          value={searchTerm}
-          onChange={handleFilterChange}
-        />
+        {filterType === "date" && (
+          <input
+            type="date"
+            name="date"
+            id="date"
+            value={searchTerm}
+            onChange={handleFilterChange}
+          />
+        )}
+        {(filterType === "name" || filterType === "BookingId") && (
+          <input
+            type="text"
+            placeholder="Enter search term"
+            value={searchTerm}
+            onChange={handleFilterChange}
+          />
+        )}
+        {filterType === "time" && (
+          <select
+            name="time"
+            id="time"
+            value={searchTerm}
+            onChange={handleFilterChange}
+          >
+            <option value="18:00">18:00</option>
+            <option value="21:00">21:00</option>
+          </select>
+        )}
         <button onClick={applyFilter}>Filtrera</button>
       </div>
       <ul>
@@ -135,6 +163,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
                     <p>Date: {booking[3]}</p>
                     <p>Time: {convertTime(booking[4])}</p>
                     <p>Number of Guests: {booking[1].toString()}</p>
+                    <p>Booking ID: {booking[0].toString()}</p>
                   </div>
                   <div className="booking-actions">
                     <button onClick={() => handleEdit(booking[0])}>Edit</button>
@@ -157,6 +186,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
                     <p>Date: {booking[3]}</p>
                     <p>Time: {convertTime(booking[4])}</p>
                     <p>Number of Guests: {booking[1].toString()}</p>
+                    <p>Booking ID: {booking[0].toString()}</p>
                   </div>
                   <div className="booking-actions">
                     <button onClick={() => handleEdit(booking[0])}>Edit</button>
