@@ -39,25 +39,27 @@ export const Admin = () => {
       <h1>Admin</h1>
       {isConnected ? (
         <form onSubmit={handleCreateRestaurant}>
-        <label>
-          <input
-            type="text"
-            name="name"
-            value={newRestaurant.name}
-            onChange={handleInputChange}
-            placeholder="Restaurant Name"
-            required
-          />
-        </label>
-        <button type="submit">Create Restaurant</button>
-      </form>
+          <label>
+            <input
+              type="text"
+              name="name"
+              value={newRestaurant.name}
+              onChange={handleInputChange}
+              placeholder="Restaurant Name"
+              required
+            />
+          </label>
+          <button type="submit">Create Restaurant</button>
+        </form>
       ) : (
         <p>Connect wallet to create a restaurant</p>
       )}
 
-      {isConnected ? <ShowRestaurants /> : null}
+      {isConnected && <ShowRestaurants />}
       <div>
-        <ShowBookings all={true} restaurantId={newRestaurant.id} />
+        {isConnected && (
+          <ShowBookings all={true} restaurantId={newRestaurant.id} />
+        )}
       </div>
     </div>
   );
