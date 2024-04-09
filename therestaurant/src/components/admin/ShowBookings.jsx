@@ -4,9 +4,11 @@ import {
   editBooking,
   removeBooking,
   getBookings,
+  fetchAllBookings,
 } from "../../services/blockchainService.js";
 import { ContractContext } from "../../context/ContractContext.js";
-import { convertTime } from "../../services/utils.js";
+import { applyFilters } from "../../services/utils.js";
+import { Bookings } from "./Bookings.jsx";
 
 export const ShowBookings = ({ restaurantId, all }) => {
   const [bookings, setBookings] = useState([]);
@@ -18,20 +20,8 @@ export const ShowBookings = ({ restaurantId, all }) => {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      try {
-        if (readContract) {
-          const bookingCount = await readContract.bookingCount();
-          const fetchedBookings = [];
-          for (let i = 1; i <= bookingCount; i++) {
-            const booking = await readContract.bookings(i);
-            fetchedBookings.push(booking);
-          }
-          fetchedBookings.sort((a, b) => a - b);
-          setBookings(fetchedBookings);
-        }
-      } catch (error) {
-        console.error("Failed to fetch bookings:", error);
-      }
+      const fetchedBookings = await fetchAllBookings(readContract);
+      setBookings(fetchedBookings);
     };
 
     fetchBookings();
@@ -43,23 +33,10 @@ export const ShowBookings = ({ restaurantId, all }) => {
     if (e.target.value === "") {
       setSearchActive(false);
     }
-    console.log(searchActive);
   };
 
-  const applyFilter = () => {
-    const filteredBookings = bookings.filter((booking) => {
-      if (filterType === "date") {
-        return booking[3] === searchTerm;
-      } else if (filterType === "time") {
-        const timeStr = convertTime(booking[4]);
-        return timeStr === searchTerm;
-      } else if (filterType === "name") {
-        return booking[2].toLowerCase().includes(searchTerm.toLowerCase());
-      } else if (filterType === "BookingId") {
-        return booking[0].toString() === searchTerm;
-      }
-      return false;
-    });
+  const handleApplyFilter = () => {
+    const filteredBookings = applyFilters(bookings, filterType, searchTerm);
     setFilteredBookings(filteredBookings);
     setSearchActive(true);
   };
@@ -106,6 +83,8 @@ export const ShowBookings = ({ restaurantId, all }) => {
     }
   };
 
+  const bookingsToRender = searchActive ? filteredBookings : bookings;
+
   return (
     <div className="container-contact">
       <h2>Bookings</h2>
@@ -148,55 +127,19 @@ export const ShowBookings = ({ restaurantId, all }) => {
             <option value="21:00">21:00</option>
           </select>
         )}
-        <button onClick={applyFilter}>Filtrera</button>
+        <button onClick={handleApplyFilter}>Filtrera</button>
       </div>
       <ul>
-        {!searchActive &&
-          bookings
-            .sort((a, b) => Number(a[5]) - Number(b[5]))
-            .map((booking) => {
-              return (
-                <li key={booking[0]}>
-                  <div className="booking-detail">
-                    <p>Restaurant ID: {booking[5].toString()}</p>
-                    <p>Name: {booking[2]}</p>
-                    <p>Date: {booking[3]}</p>
-                    <p>Time: {convertTime(booking[4])}</p>
-                    <p>Number of Guests: {booking[1].toString()}</p>
-                    <p>Booking ID: {booking[0].toString()}</p>
-                  </div>
-                  <div className="booking-actions">
-                    <button onClick={() => handleEdit(booking[0])}>Edit</button>
-                    <button onClick={() => handleRemove(booking[0])}>
-                      Remove
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-        {searchActive &&
-          filteredBookings
-            .sort((a, b) => Number(a[5]) - Number(b[5]))
-            .map((booking) => {
-              return (
-                <li key={booking[0]}>
-                  <div className="booking-detail">
-                    <p>Restaurant ID: {booking[5].toString()}</p>
-                    <p>Name: {booking[2]}</p>
-                    <p>Date: {booking[3]}</p>
-                    <p>Time: {convertTime(booking[4])}</p>
-                    <p>Number of Guests: {booking[1].toString()}</p>
-                    <p>Booking ID: {booking[0].toString()}</p>
-                  </div>
-                  <div className="booking-actions">
-                    <button onClick={() => handleEdit(booking[0])}>Edit</button>
-                    <button onClick={() => handleRemove(booking[0])}>
-                      Remove
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
+        {bookingsToRender
+          .sort((a, b) => Number(a[5]) - Number(b[5]))
+          .map((booking) => (
+            <Bookings
+              key={booking[0]}
+              booking={booking}
+              handleEdit={handleEdit}
+              handleRemove={handleRemove}
+            />
+          ))}
       </ul>
     </div>
   );
