@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { WalletContext } from '../../context/WalletContext';
 import { DarkModeContext } from '../../context/DarkModeContext';
+
 export const Navbar = () => {
   const { walletAddress, isConnected, connectWallet, disconnectWallet } =
     useContext(WalletContext);
@@ -63,21 +64,27 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <button
-              className={`toggle-dark-mode ${isDarkMode ? 'dark' : ''}`}
-              onClick={toggleDarkMode}
-            >
-              {isDarkMode ? '🔆' : '🌙'}
-            </button>
+            <div className="toggle-switch">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isDarkMode}
+                  onChange={toggleDarkMode}
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
           </li>
           <li>
-            <button
-              className="connect-wallet-button"
-              onClick={!isConnected ? connectWallet : disconnectWallet}
-            >
-              {!isConnected ? 'Connect Wallet' : 'Connected'}
-            </button>
-            <span>{walletAddress}</span>
+            <div className="nav-wallet-button">
+              <button
+                className="connect-wallet-button"
+                onClick={!isConnected ? connectWallet : disconnectWallet}
+              >
+                {!isConnected ? 'Connect Wallet' : 'Connected'}
+              </button>
+              <span>{walletAddress}</span>
+            </div>
           </li>
         </ul>
       </nav>

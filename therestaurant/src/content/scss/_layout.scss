@@ -226,3 +226,13 @@ nav {
     background-color: $color-dark-green;
   }
 }
+
+.nav-wallet-button {
+  position: relative;
+}
+
+@media (max-width: 768px) 
+  .nav-wallet-button {
+    margin-top: 50px;
+  }
+}
