@@ -63,7 +63,7 @@ export const Navbar = () => {
               Contact
             </NavLink>
           </li>
-          <li>
+          <li className="nav-extra">
             <div className="toggle-switch">
               <label>
                 <input
@@ -75,15 +75,15 @@ export const Navbar = () => {
               </label>
             </div>
           </li>
-          <li>
+          <li className="nav-extra">
             <div className="nav-wallet-button">
               <button
                 className="connect-wallet-button"
                 onClick={!isConnected ? connectWallet : disconnectWallet}
               >
-                {!isConnected ? 'Connect Wallet' : 'Connected'}
+                {!isConnected ? 'Connect Wallet' : 'Connected ✔'}
               </button>
-              <span>{walletAddress}</span>
+              {/* <span>{walletAddress}</span> */}
             </div>
           </li>
         </ul>

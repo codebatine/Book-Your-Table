@@ -19,9 +19,15 @@ header {
   color: white;
   cursor: pointer;
   width: 100%;
+  transition: background-color 0.4s ease, transform 0.4s ease;
 
   &:hover {
     background-color: $color-dark-green;
+  }
+
+  &:active {
+    background-color: $color-green;
+    transform: scale(1.1);
   }
 }
 
@@ -73,9 +79,15 @@ header {
       color: white;
       cursor: pointer;
       width: 100%;
+      transition: background-color 0.4s ease, transform 0.4s ease;
 
       &:hover {
         background-color: $color-dark-green;
+      }
+
+      &:active {
+        background-color: $color-green;
+        transform: scale(1.1);
       }
     }
   }
@@ -141,9 +153,15 @@ header {
       color: white;
       cursor: pointer;
       width: 100%;
+      transition: background-color 0.4s ease, transform 0.4s ease;
 
       &:hover {
         background-color: $color-dark;
+      }
+
+      &:active {
+        background-color: $color-green;
+        transform: scale(1.1);
       }
     }
   }
@@ -185,32 +203,4 @@ header {
     width: 60px;
     height: auto;
   }
-}
-
-.connect-wallet-button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: $color-dark;
-  color: white;
-  cursor: pointer;
-  width: 200px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  &:hover {
-    background-color: $color-dark-green;
-  }
-
-.nav-wallet-button {
-  position: relative;
-}
-
-@media (max-width: 768px) {
-  .nav-wallet-button {
-    margin-top: 50px;
-  }
-}
 }
