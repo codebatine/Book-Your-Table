@@ -430,6 +430,11 @@ body.dark-mode h2 {
 nav {
   padding: 15px 20px;
 }
+nav .logo {
+  height: 50px;
+  cursor: pointer;
+  margin-right: auto;
+}
 nav ul {
   list-style: none;
   padding: 0;

@@ -1,6 +1,12 @@
 nav {
   padding: 15px 20px;
 
+  .logo {
+    height: 50px;
+    cursor: pointer;
+    margin-right: auto;
+  }
+
   ul {
     list-style: none;
     padding: 0;

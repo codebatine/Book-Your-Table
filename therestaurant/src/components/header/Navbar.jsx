@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { WalletContext } from '../../context/WalletContext';
 import { DarkModeContext } from '../../context/DarkModeContext';
+import logo from '../../content/img/logo.png';
 
 export const Navbar = () => {
   const { walletAddress, isConnected, connectWallet, disconnectWallet } =
@@ -31,6 +32,11 @@ export const Navbar = () => {
           <span></span>
         </div>
         <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+          <li>
+          <NavLink to={'/'}>
+              <img src={logo} alt="Logo" className="logo" onClick={() => setIsOpen(false)} />
+            </NavLink>
+            </li>
           <li>
             <NavLink
               to={'/'}
