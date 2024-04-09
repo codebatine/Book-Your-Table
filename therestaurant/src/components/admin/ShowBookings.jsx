@@ -7,7 +7,7 @@ import {
   fetchAllBookings,
 } from "../../services/blockchainService.js";
 import { ContractContext } from "../../context/ContractContext.js";
-import { applyFilters } from "../../services/utils.js";
+import { applyAdminFilters } from "../../services/utils.js";
 import { Bookings } from "./Bookings.jsx";
 
 export const ShowBookings = ({ restaurantId, all }) => {
@@ -36,7 +36,11 @@ export const ShowBookings = ({ restaurantId, all }) => {
   };
 
   const handleApplyFilter = () => {
-    const filteredBookings = applyFilters(bookings, filterType, searchTerm);
+    const filteredBookings = applyAdminFilters(
+      bookings,
+      filterType,
+      searchTerm,
+    );
     setFilteredBookings(filteredBookings);
     setSearchActive(true);
   };

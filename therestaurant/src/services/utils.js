@@ -5,7 +5,7 @@ export const convertTime = (minutesBigInt) => {
   return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}`;
 };
 
-export const applyFilters = (bookings, filterType, searchTerm) => {
+export const applyAdminFilters = (bookings, filterType, searchTerm) => {
   if (!bookings) {
     return [];
   }
@@ -24,4 +24,18 @@ export const applyFilters = (bookings, filterType, searchTerm) => {
     return false;
   });
   return filteredBookings;
+};
+
+export const applyBookingFilters = (allBookings, bookings, booking) => {
+  try {
+    const filtertedBookingsPerRestaurunt = allBookings.filter((item) =>
+      bookings.includes(item[5]),
+    );
+    const filterDate = filtertedBookingsPerRestaurunt.filter(
+      (item) => item[3] === booking.date,
+    );
+    return filterDate;
+  } catch (error) {
+    console.error("Failed to filter bookings:", error);
+  }
 };
