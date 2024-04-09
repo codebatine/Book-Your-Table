@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom';
+import signalImg from '../../content/img/signal.png';
+import telegramImg from '../../content/img/telegram.png';
 
 export const Footer = () => {
   return (
@@ -10,9 +12,26 @@ export const Footer = () => {
         <NavLink to={'/contact'}>Contact</NavLink>
       </div>
       <div className="social-links">
-        <a href="https://www.facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-        <a href="https://www.twitter.com" target="_blank" rel="noreferrer">Twitter</a>
-        <a href="https://www.instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+        <a
+          href=""
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            src={signalImg}
+            alt="Signal"
+          />
+        </a>
+        <a
+          href=""
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            src={telegramImg}
+            alt="Telegram"
+          />
+        </a>
       </div>
     </footer>
   );
