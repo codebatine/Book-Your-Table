@@ -129,40 +129,26 @@ export const editBooking = async (
   }
 };
 
-export const getBookings = async (restaurantId, readContract) => {
+export const fetchAllBookings = async (readContract, restaurantId = "") => {
+  const bookings = [];
   if (!readContract) {
-    return [];
+    console.error("Read contract is not provided.");
+    return bookings;
   }
 
   try {
-    const count = await readContract.bookingCount();
-    const bookings = [];
-    for (let i = 1; i <= count; i++) {
+    const bookingCount = await readContract.bookingCount();
+    for (let i = 1; i <= bookingCount; i++) {
       const booking = await readContract.bookings(i);
-      if (booking.resturantId === restaurantId) {
+      if (!restaurantId || booking.resturantId === restaurantId) {
         bookings.push(booking);
       }
     }
-    return bookings;
   } catch (error) {
     console.error(`Failed to fetch bookings: ${error}`);
   }
-};
 
-export const fetchAllBookings = async (readContract) => {
-  try {
-    if (readContract) {
-      const bookingCount = await readContract.bookingCount();
-      const fetchedBookings = [];
-      for (let i = 1; i <= bookingCount; i++) {
-        const booking = await readContract.bookings(i);
-        fetchedBookings.push(booking);
-      }
-      return fetchedBookings;
-    }
-  } catch (error) {
-    console.error("Failed to fetch bookings:", error);
-  }
+  return bookings;
 };
 
 export const removeBooking = async (bookingId, writeContract) => {

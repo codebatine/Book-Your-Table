@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import {
   editBooking,
   removeBooking,
-  getBookings,
   fetchAllBookings,
 } from "../../services/blockchainService.js";
 import { ContractContext } from "../../context/ContractContext.js";
@@ -60,7 +59,10 @@ export const ShowBookings = ({ restaurantId, all }) => {
         writeContract,
       );
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      const fetchedBookings = await getBookings(readContract, restaurantId);
+      const fetchedBookings = await fetchAllBookings(
+        readContract,
+        restaurantId,
+      );
       setBookings(
         fetchedBookings.filter((booking) => booking[0] !== bookingId),
       );
@@ -78,7 +80,10 @@ export const ShowBookings = ({ restaurantId, all }) => {
       try {
         await removeBooking(bookingId, writeContract);
         await new Promise((resolve) => setTimeout(resolve, 5000));
-        const fetchedBookings = await getBookings(readContract, restaurantId);
+        const fetchedBookings = await fetchAllBookings(
+          readContract,
+          restaurantId,
+        );
         setBookings(fetchedBookings);
         window.alert("The booking has been removed.");
       } catch (error) {
