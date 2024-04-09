@@ -7,6 +7,8 @@ import { ShowBookings } from "../components/admin/ShowBookings.jsx";
 
 export const Admin = () => {
   const [newRestaurant, setNewRestaurant] = useState({ name: "" });
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [admin, setAdmin] = useState({username: "", password: ""});
   const [isLoading] = useState(false);
   const { writeContract } = useContext(ContractContext);
   const { isConnected } = useContext(WalletContext);
@@ -34,31 +36,60 @@ export const Admin = () => {
     return <div>Loading...</div>;
   }
 
+  const handleLogin = () => {
+    if(admin.username === "admin" && admin.password === "123") {
+      setLoggedIn(true)
+    } else {
+      alert("Wrong username or password!")
+    }
+  }
+
+  const handleAdmin = (e) => {
+    setAdmin({ ...admin, [e.target.name]: e.target.value });
+  }
+
   return (
     <div className="container">
       <h1>Admin</h1>
-      {isConnected ? (
-        <form onSubmit={handleCreateRestaurant}>
-        <label>
-          <input
-            type="text"
-            name="name"
-            value={newRestaurant.name}
-            onChange={handleInputChange}
-            placeholder="Restaurant Name"
-            required
-          />
-        </label>
-        <button type="submit">Create Restaurant</button>
-      </form>
-      ) : (
-        <p>Connect wallet to create a restaurant</p>
+      {isConnected && loggedIn ? (
+        <>
+          <form onSubmit={handleCreateRestaurant}>
+          <label>
+            <input
+              type="text"
+              name="name"
+              value={newRestaurant.name}
+              onChange={handleInputChange}
+              placeholder="Restaurant Name"
+              required
+            />
+          </label>
+          <button type="submit">Create Restaurant</button>
+        </form>
+        <ShowRestaurants />
+        <div>
+          <ShowBookings all={true} restaurantId={newRestaurant.id} />
+        </div>
+      </>
+      ) : null}
+      {!isConnected && <p>Connect a wallet to continue.</p>}
+      {isConnected && !loggedIn && (
+        <>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin()}}>
+            <div className="form-control">
+              <label htmlFor="username-admin">Username</label>
+              <input type="text" id="username-admin" name="username" placeholder="admin" onChange={handleAdmin}/>
+              </div>
+            <div className="form-control">
+              <label htmlFor="password-admin">Password</label>
+              <input type="text" id="password-admin" name="password" placeholder="123" onChange={handleAdmin}/>
+            </div>
+            <button>Log in</button>
+          </form>
+        </>
       )}
-
-      {isConnected ? <ShowRestaurants /> : null}
-      <div>
-        <ShowBookings all={true} restaurantId={newRestaurant.id} />
-      </div>
     </div>
   );
 };
