@@ -149,6 +149,21 @@ header {
   }
 }
 
+.button-login {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: $color-dark;
+  color: white;
+  cursor: pointer;
+  width: 33% !important;
+  margin: 20px auto;
+
+  &:hover {
+    background-color: $color-dark-green;
+  }
+}
+
 .search-input {
   padding: 10px;
   border: 1px solid #ccc;

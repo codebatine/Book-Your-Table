@@ -52,6 +52,12 @@ export const Admin = () => {
     }
   }
 
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.removeItem('loggedIn');
+  }
+
+
   const handleAdmin = (e) => {
     setAdmin({ ...admin, [e.target.name]: e.target.value });
   }
@@ -61,24 +67,25 @@ export const Admin = () => {
       <h1>Admin</h1>
       {isConnected && loggedIn ? (
         <>
-          <form onSubmit={handleCreateRestaurant}>
-          <label>
-            <input
-              type="text"
-              name="name"
-              value={newRestaurant.name}
-              onChange={handleInputChange}
-              placeholder="Restaurant Name"
-              required
-            />
-          </label>
-          <button type="submit">Create Restaurant</button>
-        </form>
-        <ShowRestaurants />
-        <div>
-          <ShowBookings all={true} restaurantId={newRestaurant.id} />
-        </div>
-      </>
+            <button className="button-login" onClick={handleLogout}>Log out</button>          
+            <form onSubmit={handleCreateRestaurant}>
+            <label>
+              <input
+                type="text"
+                name="name"
+                value={newRestaurant.name}
+                onChange={handleInputChange}
+                placeholder="Restaurant Name"
+                required
+              />
+            </label>
+            <button type="submit">Create Restaurant</button>
+          </form>
+          <ShowRestaurants />
+          <div>
+            <ShowBookings all={true} restaurantId={newRestaurant.id} />
+          </div>
+        </>
       ) : null}
       {!isConnected && <p>Connect a wallet to continue.</p>}
       {isConnected && !loggedIn && (
@@ -89,15 +96,15 @@ export const Admin = () => {
             <div className="form-control">
               <label htmlFor="username-admin">Username</label>
               <input type="text" id="username-admin" name="username" placeholder="admin" onChange={handleAdmin}/>
-              </div>
+            </div>
             <div className="form-control">
               <label htmlFor="password-admin">Password</label>
               <input type="text" id="password-admin" name="password" placeholder="123" onChange={handleAdmin}/>
             </div>
-            <button>Log in</button>
+            <button className="button-login" onClick={handleLogin}>Log in</button>
           </form>
         </>
       )}
     </div>
   );
-};
+}
