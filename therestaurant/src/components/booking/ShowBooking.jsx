@@ -8,7 +8,6 @@ export const ShowBooking = ({ displayBookingConfirmation, loadingScreen, restaur
   };
 
   const findRestaurantName = (restaurantId) => {
-    console.log("find restaurant - restaurantId", restaurantId);
     const restaurant = restaurantList.find(
       (restaurant) => (restaurant[0].toString()) === (restaurantId),
     );

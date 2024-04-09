@@ -63,7 +63,7 @@ export const Booking = () => {
     <>
       <div className="booking-wrapper container">
       <h1>Booking</h1>
-        {isConnected ? (
+        {isConnected && !displayBookingForm ? (
           <ChooseRestaurant
             displayBookingConfirmation={displayBookingConfirmation}
             handleEnterBooking={handleEnterBooking}
