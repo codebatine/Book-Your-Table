@@ -23,7 +23,6 @@ export const Bookingform = ({displayBookingConfirmation, loadingScreen, booking,
             const booking = await readContract.bookings(i);
             fetchedBookings.push(booking);
           }
-          fetchedBookings.sort((a, b) => a - b);
           setAllBookings(fetchedBookings);
         }
       } catch (error) {
