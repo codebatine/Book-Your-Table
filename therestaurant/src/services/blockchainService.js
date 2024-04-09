@@ -150,4 +150,14 @@ export const removeBooking = async (bookingId, writeContract) => {
 
 //
 
-export const getBooking = async () => {};
+export const getBookingFunc = async (restaurantId, readContract) => {
+  if (!readContract) {
+    return [];
+  }
+  try {
+    const bookings = await readContract.getBookings(restaurantId);
+    return bookings;
+  } catch (error) {
+    console.error(`Failed to fetch bookings: ${error}`);
+  }
+};
