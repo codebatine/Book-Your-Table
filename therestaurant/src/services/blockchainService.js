@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { abi, contractAddress } from "./config.js";
+import { abi } from "./config.js";
 
 /**********************************************************************************/
 //                     Blockchain Initialization Functions                        //
@@ -26,7 +26,11 @@ export const walletChecker = (errorMsg) => {
   }
 };
 
-export const loadReadContract = async () => {
+export const loadReadContract = async (contractAddress) => {
+  if (contractAddress === "") {
+    return;
+  }
+
   const todoReadContract = new ethers.Contract(
     contractAddress,
     abi,
@@ -36,7 +40,10 @@ export const loadReadContract = async () => {
   return todoReadContract;
 };
 
-export const loadWriteContract = async () => {
+export const loadWriteContract = async (contractAddress) => {
+  if (contractAddress === "") {
+    return;
+  }
   const signer = await provider.getSigner();
 
   const resturantWriteContract = new ethers.Contract(

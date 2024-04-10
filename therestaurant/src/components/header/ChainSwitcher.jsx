@@ -1,33 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { CONTRACT_ADDRESSES } from "../../services/config";
 
 export const ChainSwitcher = () => {
-  const [contractAddress, setContractAddress] = useState("");
-
-  useEffect(() => {
-    const setUp = async () => {
-      const { ethereum } = window;
-      if (!ethereum) {
-        console.log("Install MetaMask.");
-        return;
+  const switchChain = async (targetChainId) => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: targetChainId }],
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: targetChainId,
+                rpcUrl: "https://mainnet.infura.io/v3/",
+              },
+            ],
+          });
+        } catch (addError) {
+          console.error("Failed to add the chain:", addError);
+        }
+      } else {
+        console.error("Failed to switch the chain:", switchError);
       }
-      const chainId = await ethereum.request({ method: "eth_chainId" });
-      setContractAddress(CONTRACT_ADDRESSES[chainId]);
+    }
+  };
 
-      const handdleChainChanged = (_chainId) => {
-        setContractAddress(CONTRACT_ADDRESSES[_chainId]);
-        window.location.reload();
-      };
+  const handleSelectChange = (event) => {
+    switchChain(event.target.value);
+  };
 
-      ethereum.on("chainChanged", handdleChainChanged);
-
-      return () => {
-        ethereum.removeListener("chainChanged", handdleChainChanged);
-      };
-    };
-    setUp();
-  }, []);
-
-  return <div>ChainSwitcher</div>;
+  return (
+    <div>
+      <select onChange={handleSelectChange}>
+        <option value="">Välj en kedja</option>
+        <option value="0xaa36a7">Sepolia</option>
+        <option value="0x7A69">Local</option>
+      </select>
+    </div>
+  );
 };

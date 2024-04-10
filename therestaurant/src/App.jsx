@@ -1,13 +1,14 @@
 import { RouterProvider } from "react-router-dom";
 import "./App.scss";
 import { router } from "./Router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { WalletContext } from "./context/WalletContext";
 import { ContractContext } from "./context/ContractContext";
 import {
   loadReadContract,
   loadWriteContract,
 } from "./services/blockchainService";
+import { CONTRACT_ADDRESSES } from "./services/config";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -15,6 +16,7 @@ function App() {
   const [walletProvider, setWalletProvider] = useState(null);
   const [readContract, setReadContract] = useState(null);
   const [writeContract, setWriteContract] = useState(null);
+  const [contractAddress, setContractAddress] = useState("");
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -34,15 +36,28 @@ function App() {
   };
 
   useEffect(() => {
-    const chainCheck = async () => {
-      const chainId = await window.ethereum.request({ method: "eth_chainId" });
-      const handleChainChanged = async (chainId) => {
-        console.log("Chain ID:", chainId);
+    const setUp = async () => {
+      const { ethereum } = window;
+      if (!ethereum) {
+        console.log("Install MetaMask.");
+        return;
+      }
+      const chainId = await ethereum.request({ method: "eth_chainId" });
+      setContractAddress(CONTRACT_ADDRESSES[chainId]);
+      console.log("Chain ID:", CONTRACT_ADDRESSES[chainId]);
+
+      const handdleChainChanged = (_chainId) => {
+        setContractAddress(CONTRACT_ADDRESSES[_chainId]);
         window.location.reload();
       };
-      window.ethereum.on("chainChanged", handleChainChanged);
+
+      ethereum.on("chainChanged", handdleChainChanged);
+
+      return () => {
+        ethereum.removeListener("chainChanged", handdleChainChanged);
+      };
     };
-    chainCheck();
+    setUp();
   }, []);
 
   const disconnectWallet = () => {
@@ -54,14 +69,14 @@ function App() {
     connectWallet();
 
     const Contracts = async () => {
-      const rContract = await loadReadContract();
+      const rContract = await loadReadContract(contractAddress);
       setReadContract(rContract);
 
-      const wContract = await loadWriteContract();
+      const wContract = await loadWriteContract(contractAddress);
       setWriteContract(wContract);
     };
     Contracts();
-  }, []);
+  }, [contractAddress]);
 
   return (
     <>
@@ -74,7 +89,12 @@ function App() {
           walletProvider, // object
         }}
       >
-        <ContractContext.Provider value={{ readContract, writeContract }}>
+        <ContractContext.Provider
+          value={{
+            readContract,
+            writeContract,
+          }}
+        >
           <RouterProvider router={router} />
         </ContractContext.Provider>
       </WalletContext.Provider>
