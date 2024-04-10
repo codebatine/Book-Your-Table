@@ -5,16 +5,16 @@
 1. First open a terminal and clone down the repo in a folder of your choice.
    - `git clone https://github.com/Medieinstitutet/the-restaurant-bullens-utvecklare.git`
 2. Navigate to the frontend part of the application
-   `cd therestaurant`
+   - `cd therestaurant`
 
 3. Install dependencies
-   `npm install`
+  - `npm install`
 
 4. Run the application on local machine
-   `npm run dev`
+  - `npm run dev`
 
 5. If a browser have not pop up please paste this in your URL in your favorite browser
-   `http://localhost:5173/`
+  -  `http://localhost:5173/`
 
 6. Connect with Metamask on a sepolia test chain. If you want to connect to a local chain please follow the steps inside Hardhat part of this project.
 
