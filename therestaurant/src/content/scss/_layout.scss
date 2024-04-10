@@ -1,5 +1,5 @@
 body {
-  background-color: $color-white;
+  background-color: $color-cream-white;
 }
 
 header {
@@ -11,54 +11,23 @@ header {
   align-items: center;
 }
 
-nav {
-  padding: 15px 20px;
+@mixin button-styles {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: $color-dark;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.4s ease, transform 0.4s ease;
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 20px;
-
-    li {
-      font-size: 150%;
-      display: inline-block;
-      padding: 10px;
-
-      a {
-        color: $color-dark;
-        text-decoration: none;
-
-        &:hover {
-          color: $color-cream-white;
-        }
-      }
-    }
-
-    .current {
-      color: $color-dark-green;
-    }
+  &:hover {
+    background-color: $color-dark-green;
   }
 
-  @media (max-width: 800px) {
-    padding: 0;
-
-    ul {
-      display: none;
-
-      &.open {
-        display: flex;
-        flex-direction: column;
-        background-color: $color-green;
-        width: 100vw;
-        height: 100vh;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 20%;
-        z-index: 99;
-      }
-    }
+  &:active {
+    background-color: $color-green;
+    transform: scale(1.1);
   }
 }
 
@@ -71,7 +40,7 @@ nav {
   max-width: 1000px;
   margin: 150px auto 0 auto;
   padding: 3rem;
-  background-color:rgba($color-green, .5);
+  background-color: $color-green;
   border-radius:.25em;
   box-shadow:0 0 .25em rgba($color-green, .25);
   box-sizing:border-box;
@@ -110,9 +79,15 @@ nav {
       color: white;
       cursor: pointer;
       width: 100%;
+      transition: background-color 0.4s ease, transform 0.4s ease;
 
       &:hover {
         background-color: $color-dark-green;
+      }
+
+      &:active {
+        background-color: $color-green;
+        transform: scale(1.1);
       }
     }
   }
@@ -121,6 +96,7 @@ nav {
 .container-contact {
   margin: 50px auto 0 auto;
   width: 100%;
+  background: $color-green;
 
   form {
     display: flex;
@@ -171,18 +147,38 @@ nav {
 
     button {
       padding: 10px;
-      margin: 10px 0;
       border: none;
       border-radius: 4px;
       background-color: $color-dark;
       color: white;
       cursor: pointer;
       width: 100%;
+      transition: background-color 0.4s ease, transform 0.4s ease;
 
       &:hover {
-        background-color: $color-dark-green;
+        background-color: $color-dark;
+      }
+
+      &:active {
+        background-color: $color-green;
+        transform: scale(1.1);
       }
     }
+  }
+}
+
+.button-login {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: $color-dark;
+  color: white;
+  cursor: pointer;
+  width: 33% !important;
+  margin: 20px auto;
+
+  &:hover {
+    background-color: $color-dark-green;
   }
 }
 
@@ -206,33 +202,5 @@ nav {
   img {
     width: 60px;
     height: auto;
-  }
-}
-
-.connect-wallet-button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: $color-dark;
-  color: white;
-  cursor: pointer;
-  width: 200px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  &:hover {
-    background-color: $color-dark-green;
-  }
-}
-
-.nav-wallet-button {
-  position: relative;
-}
-
-@media (max-width: 768px) {
-  .nav-wallet-button {
-    margin-top: 50px;
   }
 }
