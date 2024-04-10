@@ -109,7 +109,7 @@ export const Bookingform = ({
                 defaultValue=""
               >
                 <option value="" disabled>
-                  Välj restaurang
+                  Choose restaurant
                 </option>
                 {restaurantList.map((restaurant) => (
                   <option
@@ -141,7 +141,7 @@ export const Bookingform = ({
                         className="choose-time-wrapper"
                         htmlFor="booking-form-time-1800"
                       >
-                        Book 18:00:
+                        Book 18:00
                         
                         <input
                           type="radio"

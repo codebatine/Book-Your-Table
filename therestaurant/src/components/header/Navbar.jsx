@@ -75,18 +75,20 @@ export const Navbar = () => {
               </label>
             </div>
           </li>
-          <li className="nav-extra">
-            <div className="nav-wallet-button">
-              <button
-                className="connect-wallet-button"
-                onClick={!isConnected ? connectWallet : disconnectWallet}
-              >
-                {!isConnected ? "Connect Wallet" : "Connected ✔"}
-              </button>
-              {/* <span>{walletAddress}</span> */}
-              <ChainSwitcher />
-            </div>
-          </li>
+          <li className="nav-extra nav-wallet-container">
+  <div className="nav-wallet-button">
+    <button
+      className="connect-wallet-button"
+      onClick={!isConnected ? connectWallet : disconnectWallet}
+    >
+      {!isConnected ? "Connect Wallet" : "Connected ✔"}
+    </button>
+    {/* <span>{walletAddress}</span> */}
+  </div>
+  <div>
+    <ChainSwitcher />
+  </div>
+</li>
         </ul>
       </nav>
     </>
