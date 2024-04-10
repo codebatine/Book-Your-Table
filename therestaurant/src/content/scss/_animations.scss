@@ -66,13 +66,32 @@
     &:active {
       background-color: $color-green;
     }
+
+    @media (max-width: 800px) {
+      border-radius: 50%;
+    }
   }
 
   .quote {
     font-style: italic;
     font-size: 1.4em;
+    color: white;
     margin: 50px 0;
     padding: 10px;
+  
+    @media (max-width: 800px) {
+      color: white;
+    }
+  }
+
+  @media (max-width: 800px) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding: 5vmin;
+    transform: none;
+    top: 0;
+    left: 0;
   }
 }
 
