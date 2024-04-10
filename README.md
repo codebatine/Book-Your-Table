@@ -3,7 +3,7 @@
 # Bullens utvecklares restaurant booking solution
 
 1. First open a terminal and clone down the repo in a folder of your choice.
-   `git clone https://github.com/Medieinstitutet/the-restaurant-bullens-utvecklare.git`
+   - `git clone https://github.com/Medieinstitutet/the-restaurant-bullens-utvecklare.git`
 2. Navigate to the frontend part of the application
    `cd therestaurant`
 
