@@ -140,6 +140,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
       </div>
       <ul>
         {bookingsToRender
+          .filter((booking) => booking[2] !== "")
           .sort((a, b) => Number(a[5]) - Number(b[5]))
           .map((booking) => (
             <Bookings
