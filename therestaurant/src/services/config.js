@@ -324,3 +324,7 @@ const sepoliaAddress = "0xB369317d2d65a84397f71C7B7a548cc5294B5E9f";
 const hardhatAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 export const contractAddress = sepoliaAddress;
+export const CONTRACT_ADDRESSES = {
+  "0x539": "0x5FbDB2315678afecb367f032d93F642f64180aa3", // Exempel: Ganache (chainId 1337 i decimal)
+  "0x1B3E9": "0xB369317d2d65a84397f71C7B7a548cc5294B5E9f", // Exempel: Sepolia (chainId 11155109 i decimal)
+};

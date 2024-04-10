@@ -33,6 +33,18 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const chainCheck = async () => {
+      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+      const handleChainChanged = async (chainId) => {
+        console.log("Chain ID:", chainId);
+        window.location.reload();
+      };
+      window.ethereum.on("chainChanged", handleChainChanged);
+    };
+    chainCheck();
+  }, []);
+
   const disconnectWallet = () => {
     setWalletAddress(null);
     setIsConnected(false);
