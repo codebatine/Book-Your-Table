@@ -24,7 +24,7 @@ export const ShowBookings = ({ restaurantId, all }) => {
     };
 
     fetchBookings();
-  }, [restaurantId, all, readContract]);
+  }, [restaurantId, all, readContract, bookings]);
 
   const handleFilterChange = (e) => {
     e.preventDefault();
