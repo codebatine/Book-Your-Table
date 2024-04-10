@@ -1,13 +1,23 @@
-# Sample Hardhat Project
+# How to setup a hardhat local node and deploy the contract.
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+1. First install hardhat, Open up a new Terminal make sure you are inside hardhat directory:
+   `npm install hardhat`
 
-Try running some of the following tasks:
+2. Spin up a local chain:
+   `npx hardhat node`
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
+3. Deploy the solidity smartcontract to the local chain
+   `npx hardhat run --network localhost ignition/deploy.js `
+
+4. Connect your Metamask wallet to the local chain:
+
+Add a network to you Metamask and paste in these details
+
+Network name:
+`Hardhat chain `
+New RPC URL:
+`http://127.0.0.1:8545/ `
+Chain ID:
+`31337 `
+Currency symbol
+`hETH`
