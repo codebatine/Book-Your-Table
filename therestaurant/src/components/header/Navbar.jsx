@@ -1,8 +1,9 @@
-import { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { WalletContext } from '../../context/WalletContext';
-import { DarkModeContext } from '../../context/DarkModeContext';
-import logo from '../../content/img/logo.png';
+import { useContext, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { WalletContext } from "../../context/WalletContext";
+import { DarkModeContext } from "../../context/DarkModeContext";
+import logo from "../../content/img/logo.png";
+import { ChainSwitcher } from "./ChainSwitcher";
 
 export const Navbar = () => {
   const { walletAddress, isConnected, connectWallet, disconnectWallet } =
@@ -25,47 +26,40 @@ export const Navbar = () => {
         <div
           id="menu-icon"
           onClick={toggleMenu}
-          className={isOpen ? 'open' : ''}
+          className={isOpen ? "open" : ""}
         >
           <span></span>
           <span></span>
           <span></span>
         </div>
-        <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+        <ul className={`nav-links ${isOpen ? "open" : ""}`}>
           <li>
-          <NavLink to={'/'}>
-              <img src={logo} alt="Logo" className="logo" onClick={() => setIsOpen(false)} />
+            <NavLink to={"/"}>
+              <img
+                src={logo}
+                alt="Logo"
+                className="logo"
+                onClick={() => setIsOpen(false)}
+              />
             </NavLink>
-            </li>
+          </li>
           <li>
-            <NavLink
-              to={'/'}
-              onClick={toggleMenu}
-            >
+            <NavLink to={"/"} onClick={toggleMenu}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to={'/booking'}
-              onClick={toggleMenu}
-            >
+            <NavLink to={"/booking"} onClick={toggleMenu}>
               Booking
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to={'/admin'}
-              onClick={toggleMenu}
-            >
+            <NavLink to={"/admin"} onClick={toggleMenu}>
               Admin
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to={'/contact'}
-              onClick={toggleMenu}
-            >
+            <NavLink to={"/contact"} onClick={toggleMenu}>
               Contact
             </NavLink>
           </li>
@@ -87,9 +81,10 @@ export const Navbar = () => {
                 className="connect-wallet-button"
                 onClick={!isConnected ? connectWallet : disconnectWallet}
               >
-                {!isConnected ? 'Connect Wallet' : 'Connected ✔'}
+                {!isConnected ? "Connect Wallet" : "Connected ✔"}
               </button>
               {/* <span>{walletAddress}</span> */}
+              <ChainSwitcher />
             </div>
           </li>
         </ul>
