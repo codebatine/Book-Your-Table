@@ -12,6 +12,9 @@ export const Footer = () => {
         <NavLink to={'/contact'}>Contact</NavLink>
         <NavLink to={'/datakeep'}>Privacy Policy</NavLink>
       </div>
+      <div className="copyright">
+        <p>© 2024 Book Your Table.</p>
+      </div>
       <div className="social-links">
         <a
           href=""
