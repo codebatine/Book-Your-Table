@@ -267,9 +267,15 @@ header {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(36, 36, 36, 0.6);
-  border-radius: 0.25em;
+  width: 800px;
+  height: 800px;
   box-shadow: 0 0 0.25em rgba(36, 36, 36, 0.25);
+  border-radius: 50%;
   box-sizing: border-box;
   left: 50%;
   padding: 10vmin;
@@ -279,16 +285,18 @@ header {
   transform: translate(-50%, -50%);
   z-index: -1;
 }
+.content h1 {
+  font-size: 5rem;
+}
 .content .cta-button {
   background-color: #5daa68;
-  border: none;
   color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin-top: 50px;
+  margin-top: 10px;
   cursor: pointer;
   transition: background-color 0.4s ease, transform 0.4s ease;
 }
@@ -298,6 +306,12 @@ header {
 }
 .content .cta-button:active {
   background-color: #5daa68;
+}
+.content .quote {
+  font-style: italic;
+  font-size: 1.4em;
+  margin: 50px 0;
+  padding: 10px;
 }
 
 @keyframes slide {
