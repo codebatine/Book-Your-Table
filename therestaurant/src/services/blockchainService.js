@@ -31,13 +31,13 @@ export const loadReadContract = async (contractAddress) => {
     return;
   }
 
-  const todoReadContract = new ethers.Contract(
+  const restaurantReadContract = new ethers.Contract(
     contractAddress,
     abi,
     window.provider,
   );
 
-  return todoReadContract;
+  return restaurantReadContract;
 };
 
 export const loadWriteContract = async (contractAddress) => {

@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-
 export const ChainSwitcher = () => {
   const switchChain = async (targetChainId) => {
     try {
