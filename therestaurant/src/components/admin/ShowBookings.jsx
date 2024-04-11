@@ -9,7 +9,7 @@ import { ContractContext } from "../../context/ContractContext.js";
 import { applyAdminFilters } from "../../services/utils.js";
 import { Bookings } from "./Bookings.jsx";
 
-export const ShowBookings = ({ restaurantId, all,}) => {
+export const ShowBookings = ({ restaurantId, all }) => {
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const { readContract, writeContract } = useContext(ContractContext);
@@ -22,6 +22,7 @@ export const ShowBookings = ({ restaurantId, all,}) => {
 
   useEffect(() => {
     const fetchBookings = async () => {
+      if (!readContract) return;
       const fetchedBookings = await fetchAllBookings(readContract);
       setBookings(fetchedBookings);
     };
@@ -61,7 +62,7 @@ export const ShowBookings = ({ restaurantId, all,}) => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    const timeWithoutColon = editBookingData.time.replace(':', '');
+    const timeWithoutColon = editBookingData.time.replace(":", "");
     try {
       await editBooking(
         editBookingId,
@@ -72,8 +73,11 @@ export const ShowBookings = ({ restaurantId, all,}) => {
         writeContract,
       );
       window.alert("The booking has been edited.");
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      const fetchedBookings = await fetchAllBookings(readContract, restaurantId);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      const fetchedBookings = await fetchAllBookings(
+        readContract,
+        restaurantId,
+      );
       setBookings(fetchedBookings);
       setEditBookingId(null);
       setRefresh(!refresh);
@@ -153,56 +157,68 @@ export const ShowBookings = ({ restaurantId, all,}) => {
         <button onClick={handleApplyFilter}>Filtrera</button>
       </div>
       <ul>
-      <div>
-        {bookingsToRender
-          .filter((booking) => booking[2] !== "")
-          .sort((a, b) => Number(a[5]) - Number(b[5]))
-          .map((booking) =>
-          booking[0] === editBookingId ? (
-            <form key={booking[0]} onSubmit={handleEditSubmit}>
-              <input
-                type="number"
-                min="1"
-                max="6"
-                value={editBookingData.numberOfGuests}
-                onChange={(e) =>
-                  setEditBookingData({ ...editBookingData, numberOfGuests: e.target.value })
-                }
-              />
-              <input
-                type="text"
-                value={editBookingData.name}
-                onChange={(e) =>
-                  setEditBookingData({ ...editBookingData, name: e.target.value })
-                }
-              />
-              <input
-                type="date"
-                value={editBookingData.date}
-                onChange={(e) =>
-                  setEditBookingData({ ...editBookingData, date: e.target.value })
-                }
-              />
-              <select
-                value={editBookingData.time}
-                onChange={(e) =>
-                  setEditBookingData({ ...editBookingData, time: e.target.value.replace(':', '') })
-                }
-              >
-                <option value="1800">18:00</option>
-                <option value="2100">21:00</option>
-              </select>
-              <button type="submit">Submit</button>
-            </form>
-          ) : (
-            <Bookings
-              key={booking[0]}
-              booking={booking}
-              handleEdit={() => handleEdit(booking[0])}
-              handleRemove={handleRemove}
-            />
-          )
-        )}
+        <div>
+          {bookingsToRender
+            .filter((booking) => booking[2] !== "")
+            .sort((a, b) => Number(a[5]) - Number(b[5]))
+            .map((booking) =>
+              booking[0] === editBookingId ? (
+                <form key={booking[0]} onSubmit={handleEditSubmit}>
+                  <input
+                    type="number"
+                    min="1"
+                    max="6"
+                    value={editBookingData.numberOfGuests}
+                    onChange={(e) =>
+                      setEditBookingData({
+                        ...editBookingData,
+                        numberOfGuests: e.target.value,
+                      })
+                    }
+                  />
+                  <input
+                    type="text"
+                    value={editBookingData.name}
+                    onChange={(e) =>
+                      setEditBookingData({
+                        ...editBookingData,
+                        name: e.target.value,
+                      })
+                    }
+                  />
+                  <input
+                    type="date"
+                    value={editBookingData.date}
+                    onChange={(e) =>
+                      setEditBookingData({
+                        ...editBookingData,
+                        date: e.target.value,
+                      })
+                    }
+                  />
+                  <select
+                    value={editBookingData.time}
+                    onChange={(e) =>
+                      setEditBookingData({
+                        ...editBookingData,
+                        time: e.target.value.replace(":", ""),
+                      })
+                    }
+                  >
+                    <option value="1800">18:00</option>
+                    <option value="2100">21:00</option>
+                  </select>
+                  <button type="submit">Submit</button>
+                </form>
+              ) : (
+                <Bookings
+                  key={booking[0]}
+                  booking={booking}
+                  handleEdit={() => handleEdit(booking[0])}
+                  handleRemove={handleRemove}
+                />
+              ),
+            )}
         </div>
       </ul>
     </div>
@@ -214,3 +230,4 @@ ShowBookings.propTypes = {
   all: PropTypes.bool,
   readContract: PropTypes.object,
 };
+

@@ -44,7 +44,6 @@ function App() {
       }
       const chainId = await ethereum.request({ method: "eth_chainId" });
       setContractAddress(CONTRACT_ADDRESSES[chainId]);
-      console.log("Chain ID:", CONTRACT_ADDRESSES[chainId]);
 
       const handdleChainChanged = (_chainId) => {
         setContractAddress(CONTRACT_ADDRESSES[_chainId]);
