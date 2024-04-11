@@ -28,6 +28,7 @@ export const Bookingform = ({
 
   useEffect(() => {
     const fetchBookings = async () => {
+      if (!readContract) return;
       const fetchedBookings = await fetchAllBookings(readContract);
       setAllBookings(fetchedBookings);
     };
@@ -142,7 +143,6 @@ export const Bookingform = ({
                         htmlFor="booking-form-time-1800"
                       >
                         Book 18:00
-                        
                         <input
                           type="radio"
                           id="booking-form-time-1800"
@@ -159,7 +159,7 @@ export const Bookingform = ({
                           }
                           disabled={tablesRemain1800 === 0}
                         />
-                       {`${tablesRemain1800} tables remaining with 6 seats at 18:00`}
+                        {`${tablesRemain1800} tables remaining with 6 seats at 18:00`}
                       </label>
                     </div>
                     <div className="form-control">
@@ -167,7 +167,7 @@ export const Bookingform = ({
                         className="choose-time-wrapper"
                         htmlFor="booking-form-time-2100"
                       >
-                        Book 21:00: 
+                        Book 21:00:
                         <input
                           type="radio"
                           id="booking-form-time-2100"
@@ -232,4 +232,3 @@ export const Bookingform = ({
     </>
   );
 };
-
