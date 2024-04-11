@@ -320,7 +320,8 @@ export const abi = [
   },
 ];
 
-const hardhatAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Change here to your Contract address from hardhat/ganache
+
+const hardhatAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Change here to your Contract address from hardhat
 
 export const CONTRACT_ADDRESSES = {
   "0x7a69": hardhatAddress,
